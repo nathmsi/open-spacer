@@ -12,7 +12,7 @@ import { deepOrange, deepPurple } from "@mui/material/colors";
 
 import styles from "./index.module.scss";
 
-import AddPlace from './AddPlace';
+import AddPlace from './addPlace';
 
 import { db } from "../../../utils/firebase";
 
