@@ -16,42 +16,8 @@ import AddEmploye from "./addEmploye";
 import styles from "./index.module.scss";
 
 import { db, deleteEmployee } from "../../../utils/firebase";
+import { stringAvatar } from "../../../utils/colors";
 
-function stringToColor(string) {
-  let hash = 0;
-  let i;
-
-  /* eslint-disable no-bitwise */
-  for (i = 0; i < string?.length; i += 1) {
-    hash = string.charCodeAt(i) + ((hash << 5) - hash);
-  }
-
-  let color = "#";
-
-  for (i = 0; i < 3; i += 1) {
-    const value = (hash >> (i * 8)) & 0xff;
-    color += `00${value.toString(16)}`.slice(-2);
-  }
-  /* eslint-enable no-bitwise */
-
-  return color;
-}
-
-function stringAvatar(name) {
-  try {
-    return {
-      sx: {
-        bgcolor: stringToColor(name),
-      },
-      children: name?.split(" ") && name?.split(" ")[1]
-        ? `${name?.split(" ")[0][0]}${name?.split(" ")[1][0]}`
-        : name[0],
-    };
-  } catch (error) {
-    console.log(error);
-    return {};
-  }
-}
 
 const ListEmploye = () => {
   const [employes, setEmployes] = useState([]);
@@ -59,7 +25,6 @@ const ListEmploye = () => {
   useEffect(() => {
     onValue(ref(db, `employees`), (snapshot) => {
       const data = snapshot.val();
-      console.log(data);
       const employes = data && Object.keys(data).map((key) => ({
         ...data[key],
       }));

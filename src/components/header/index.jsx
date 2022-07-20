@@ -54,7 +54,6 @@ const ResponsiveAppBar = () => {
   };
 
   const handleNavigate = (url) => {
-    console.log({ url });
     navigate(url);
     handleCloseNavMenu();
     handleCloseUserMenu();
