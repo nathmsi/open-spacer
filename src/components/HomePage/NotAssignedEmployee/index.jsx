@@ -25,6 +25,7 @@ const NotAssignedEmployee = ({ daySelected }) => {
   const [unasignedEmployee, setUnasignedEmployee] = useState([]);
 
   const [places, setPlaces] = useState([]);
+  const [placesInUse, setPlacesInUse] = useState([]);
 
   useEffect(() => {
     onValue(ref(db, `places`), (snapshot) => {
@@ -48,13 +49,20 @@ const NotAssignedEmployee = ({ daySelected }) => {
             Object.keys(employesGlobal).map((key) => ({
               ...employesGlobal[key],
             }));
-          const assignedEmployee = data?.employees || [];
-          const unasignedEmployee = employes.filter(
-            (el) => !assignedEmployee[el.id]
-          );
+          const assignedEmployee = data?.employees || {};
+
           if (assignedEmployee?.length === 0) {
             setUnasignedEmployee(employes);
           } else {
+            const employeesListAssigned = assignedEmployee && Object.keys(assignedEmployee).map((key) => ({
+              ...assignedEmployee[key]
+            }));
+  
+            const placeAlreadyUse =  employeesListAssigned?.filter(el => el.place).map(el => el.place)
+            setPlacesInUse(placeAlreadyUse);
+            const unasignedEmployee = employes.filter(
+              (el) => !assignedEmployee[el.id]
+            );
             setUnasignedEmployee(unasignedEmployee);
           }
         }
@@ -94,7 +102,7 @@ const NotAssignedEmployee = ({ daySelected }) => {
                     label="Age"
                     onChange={(e) => handleChangePlace({ name, id, place: e.target.value })}
                   >
-                    {places?.map((place) => <MenuItem key={place} value={place}>{place}</MenuItem>)}
+                    {places?.filter(el => !placesInUse.includes(el))?.map((place) => <MenuItem key={place} value={place}>{place}</MenuItem>)}
                   </Select>
                 </FormControl>
                 <IconButton

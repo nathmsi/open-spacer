@@ -6,7 +6,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import { getDatabase, ref, set, onValue } from "firebase/database";
+import { getDatabase, ref, set, onValue, remove } from "firebase/database";
 import { deepOrange, deepPurple } from "@mui/material/colors";
 
 import styles from "./index.module.scss";
@@ -16,7 +16,6 @@ import AddPlace from "./addPlace";
 import { db } from "../../../utils/firebase";
 
 import { stringAvatar } from "../../../utils/colors";
-
 
 const ListEmploye = () => {
   const [places, setPlaces] = useState([]);
@@ -33,12 +32,21 @@ const ListEmploye = () => {
     });
   }, []);
 
+  const handleRemovePlace = async (place) => {
+    await remove(ref(db, `places/${place}`));
+  };
+
   return (
     <div>
       <div className={styles.container}>
         {places?.map(({ numberPlace }) => (
           <ListItem alignItems="flex-start" key={numberPlace}>
-            <ListItemAvatar>
+            <ListItemAvatar
+              sx={{ cursor: "pointer" }}
+              onClick={() =>
+                handleRemovePlace(numberPlace)
+              }
+            >
               <Avatar {...stringAvatar(numberPlace)} />
             </ListItemAvatar>
           </ListItem>

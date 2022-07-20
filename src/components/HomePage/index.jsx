@@ -17,8 +17,8 @@ const HomePage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.title}>Open Spacer</div>
-      {/* <CustomAccordion title="Place" content={<AddPlace />} />
-      <CustomAccordion title="Employee" content={<ListEmploye />} /> */}
+      <CustomAccordion title="Place" content={<AddPlace />} />
+      <CustomAccordion title="Employee" content={<ListEmploye />} />
       <DaySelector handleSelectDay={(day) => setDaySelected(day)} />
       <div className={styles.Mapcontainer}>
         <RemoteEmployee daySelected={daySelected} />

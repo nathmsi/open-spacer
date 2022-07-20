@@ -22,7 +22,7 @@ export function stringAvatar(name) {
   try {
     let children = "";
     if (name.split(" ").length === 1) {
-      children = name;
+      children = name.slice(0, 3);
     } else if (name?.split(" ") && name?.split(" ")[1]) {
       children = `${name?.split(" ")[0][0]}${name?.split(" ")[1][0]}`;
     } else {
