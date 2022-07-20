@@ -7,13 +7,11 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { ref, onValue } from "firebase/database";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
-import IconButton from '@mui/material/IconButton';
+import IconButton from "@mui/material/IconButton";
 
-
-import AddEmploye from './addEmploye';
-
+import AddEmploye from "./addEmploye";
 
 import styles from "./index.module.scss";
 
@@ -24,7 +22,7 @@ function stringToColor(string) {
   let i;
 
   /* eslint-disable no-bitwise */
-  for (i = 0; i < string.length; i += 1) {
+  for (i = 0; i < string?.length; i += 1) {
     hash = string.charCodeAt(i) + ((hash << 5) - hash);
   }
 
@@ -40,14 +38,19 @@ function stringToColor(string) {
 }
 
 function stringAvatar(name) {
-  return {
-    sx: {
-      bgcolor: stringToColor(name),
-    },
-    children: name?.split(" ")[1]
-      ? `${name?.split(" ")[0][0]}${name?.split(" ")[1][0]}`
-      : name[0],
-  };
+  try {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: name?.split(" ") && name?.split(" ")[1]
+        ? `${name?.split(" ")[0][0]}${name?.split(" ")[1][0]}`
+        : name[0],
+    };
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
 }
 
 const ListEmploye = () => {
@@ -57,7 +60,7 @@ const ListEmploye = () => {
     onValue(ref(db, `employees`), (snapshot) => {
       const data = snapshot.val();
       console.log(data);
-      const employes = Object.keys(data).map((key) => ({
+      const employes = data && Object.keys(data).map((key) => ({
         ...data[key],
       }));
       setEmployes(employes);
@@ -66,19 +69,26 @@ const ListEmploye = () => {
 
   const handleDelete = async ({ id }) => {
     await deleteEmployee({ id });
-  }
+  };
 
   return (
     <div>
       <div className={styles.container}>
-        {employes.map(({ name, id }) => (
-          <ListItem alignItems="flex-start" key={id} 
-          secondaryAction={
-            <IconButton edge="end" aria-label="delete" onClick={() => handleDelete({ id })}>
-              <DeleteIcon />
-            </IconButton>
-          }>
-            <ListItemAvatar >
+        {employes?.map(({ name, id }) => (
+          <ListItem
+            alignItems="flex-start"
+            key={id}
+            secondaryAction={
+              <IconButton
+                edge="end"
+                aria-label="delete"
+                onClick={() => handleDelete({ id })}
+              >
+                <DeleteIcon />
+              </IconButton>
+            }
+          >
+            <ListItemAvatar>
               <Avatar {...stringAvatar(name)} />
             </ListItemAvatar>
             <ListItemText

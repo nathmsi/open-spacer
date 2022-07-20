@@ -9,10 +9,9 @@ import Typography from "@mui/material/Typography";
 import { getDatabase, ref, set, onValue } from "firebase/database";
 import { deepOrange, deepPurple } from "@mui/material/colors";
 
-
 import styles from "./index.module.scss";
 
-import AddPlace from './addPlace';
+import AddPlace from "./addPlace";
 
 import { db } from "../../../utils/firebase";
 
@@ -21,7 +20,7 @@ function stringToColor(string) {
   let i;
 
   /* eslint-disable no-bitwise */
-  for (i = 0; i < string.length; i += 1) {
+  for (i = 0; i < string?.length; i += 1) {
     hash = string.charCodeAt(i) + ((hash << 5) - hash);
   }
 
@@ -37,12 +36,16 @@ function stringToColor(string) {
 }
 
 function stringAvatar(name) {
-  return {
-    sx: {
-      bgcolor: stringToColor(name),
-    },
-    children: name,
-  };
+  try {
+    return {
+      sx: {
+        bgcolor: name && stringToColor(name),
+      },
+      children: name,
+    };
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 const ListEmploye = () => {
@@ -52,9 +55,11 @@ const ListEmploye = () => {
     onValue(ref(db, `places`), (snapshot) => {
       const data = snapshot.val();
       console.log(data);
-      const places = data && Object.keys(data).map((key) => ({
-        ...data[key],
-      }));
+      const places =
+        data &&
+        Object.keys(data).map((key) => ({
+          ...data[key],
+        }));
       setPlaces(places);
     });
   }, []);
