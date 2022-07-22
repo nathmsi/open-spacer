@@ -18,7 +18,8 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 import { db } from "../../../utils/firebase";
-import { stringAvatar } from "../../../utils/colors";
+
+import EmployeeCard from '../../EmployeeCard'
 
 const NotAssignedEmployee = ({ daySelected }) => {
   // const [employes, setEmployes] = useState([]);
@@ -87,53 +88,7 @@ const NotAssignedEmployee = ({ daySelected }) => {
   return (
     <div>
       <div className={styles.title}>Unassigned Employee</div>
-      <div className={styles.container}>
-        {unasignedEmployee?.map(({ name, id }) => (
-          <ListItem
-            alignItems="flex-start"
-            key={id}
-            secondaryAction={
-              <div className={styles.actions} >
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Place</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="Age"
-                    onChange={(e) => handleChangePlace({ name, id, place: e.target.value })}
-                  >
-                    {places?.filter(el => !placesInUse.includes(el))?.map((place) => <MenuItem key={place} value={place}>{place}</MenuItem>)}
-                  </Select>
-                </FormControl>
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  onClick={() => handleRemoteEmployee({ name, id })}
-                >
-                  <HomeOutlinedIcon />
-                </IconButton>
-              </div>
-            }
-          >
-            <ListItemAvatar>
-              <Avatar {...stringAvatar(name)} />
-            </ListItemAvatar>
-            <ListItemText
-              primary={name}
-              secondary={
-                <Typography
-                  sx={{ display: "inline" }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary"
-                >
-                  id : {id}
-                </Typography>
-              }
-            />
-          </ListItem>
-        ))}
-      </div>
+      <EmployeeCard {...({ employee: unasignedEmployee , handleChangePlace, places, placesInUse, handleRemoteEmployee })} />
     </div>
   );
 };

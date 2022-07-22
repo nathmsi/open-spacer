@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, remove } from "firebase/database";
+import { getDatabase, ref, set, remove, update } from "firebase/database";
 
 var firebaseConfig = {
   apiKey: "AIzaSyA34Lo7QhlbVKB3OIcrE2PKoqesDAs4QYU",
@@ -18,24 +18,37 @@ export const db = getDatabase(app);
 
 
 
-export const addEmployee = async ({
-  id, name
-}) => {
-  await set(ref(db, `employees/${id}`), {
-    id, name
+export const addEmployee = async (data) => {
+  await set(ref(db, `employees/${data?.id}`), {
+    ...data
   });
 }
 
-export const deleteEmployee = async ({
-  id
-}) => {
+export const updateEmployee = async (data) => {
+  await update(ref(db, `employees/${data.id}`), {
+    ...data
+  });
+}
+
+export const deleteEmployee = async (id) => {
   await remove(ref(db, `employees/${id}`));
 }
 
-export const addPlace = async ({
-  numberPlace
-}) => {
-  await set(ref(db, `places/${numberPlace}`), {
-    numberPlace
+
+export const addPlace = async (place) => {
+  await set(ref(db, `places/${place.numberPlace}`), {
+    ...place
   });
 }
+
+
+export const updatePlace = async (place) => {
+  await update(ref(db, `places/${place.numberPlace}`), {
+    ...place
+  });
+}
+
+export const removePlace = async (numberPlace) => {
+  await remove(ref(db, `places/${numberPlace}`));
+}
+

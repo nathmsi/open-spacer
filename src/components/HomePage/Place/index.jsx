@@ -17,7 +17,9 @@ import { db } from "../../../utils/firebase";
 
 import { stringAvatar } from "../../../utils/colors";
 
-const ListEmploye = () => {
+import MapPlace from '../../MapPlace';
+
+const ListPlace = () => {
   const [places, setPlaces] = useState([]);
 
   useEffect(() => {
@@ -38,23 +40,10 @@ const ListEmploye = () => {
 
   return (
     <div>
-      <div className={styles.container}>
-        {places?.map(({ numberPlace }) => (
-          <ListItem alignItems="flex-start" key={numberPlace}>
-            <ListItemAvatar
-              sx={{ cursor: "pointer" }}
-              onClick={() =>
-                handleRemovePlace(numberPlace)
-              }
-            >
-              <Avatar {...stringAvatar(numberPlace)} />
-            </ListItemAvatar>
-          </ListItem>
-        ))}
-      </div>
+      <MapPlace {...({ handleRemovePlaceEmployee: handleRemovePlace, places, assignedPlace: [], editMode: true })} />
       <AddPlace />
     </div>
   );
 };
 
-export default ListEmploye;
+export default ListPlace;

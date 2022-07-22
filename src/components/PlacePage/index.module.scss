@@ -19,7 +19,7 @@
 
 .Mapcontainer {
     display: grid;
-    grid-template-columns: repeat(2,auto);
+    grid-template-columns: repeat(1,1fr);
     gap: 1rem;
 
     @media only screen and (max-width: 1000px) {

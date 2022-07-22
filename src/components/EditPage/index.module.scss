@@ -19,18 +19,6 @@
 
 .Mapcontainer {
     display: grid;
-    grid-template-columns: repeat(2,auto);
+    grid-template-columns: repeat(3,1fr);
     gap: 1rem;
-
-    @media only screen and (max-width: 1000px) {
-        grid-template-columns: repeat(1,auto);
-    }
-
-}
-
-.employeeAssign {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-
 }

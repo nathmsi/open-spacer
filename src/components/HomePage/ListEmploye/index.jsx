@@ -16,7 +16,7 @@ import AddEmploye from "./addEmploye";
 import styles from "./index.module.scss";
 
 import { db, deleteEmployee } from "../../../utils/firebase";
-import { stringAvatar } from "../../../utils/colors";
+import EmployeeCard from "../../EmployeeCard";
 
 
 const ListEmploye = () => {
@@ -38,40 +38,7 @@ const ListEmploye = () => {
 
   return (
     <div>
-      <div className={styles.container}>
-        {employes?.map(({ name, id }) => (
-          <ListItem
-            alignItems="flex-start"
-            key={id}
-            secondaryAction={
-              <IconButton
-                edge="end"
-                aria-label="delete"
-                onClick={() => handleDelete({ id })}
-              >
-                <DeleteIcon />
-              </IconButton>
-            }
-          >
-            <ListItemAvatar>
-              <Avatar {...stringAvatar(name)} />
-            </ListItemAvatar>
-            <ListItemText
-              primary={name}
-              secondary={
-                <Typography
-                  sx={{ display: "inline" }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary"
-                >
-                  id : {id}
-                </Typography>
-              }
-            />
-          </ListItem>
-        ))}
-      </div>
+      <EmployeeCard {...({ employee: employes, editMode: true })} />
       <AddEmploye />
     </div>
   );

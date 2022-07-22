@@ -1,12 +1,12 @@
 import type { NextPage } from 'next';
 import styles from '../styles/Home.module.css'
-import HomePage from '../src/components/HomePage';
+import EditPage from '../src/components/EditPage';
 
 
 const Home: NextPage = () => {
   return (
     <div className={styles.container}>
-        <HomePage />
+        <EditPage />
     </div>
   )
 }

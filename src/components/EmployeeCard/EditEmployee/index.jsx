@@ -8,66 +8,60 @@ import DialogTitle from "@mui/material/DialogTitle";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { addEmployee, deleteEmployee } from "../../../../utils/firebase";
-import Backdrop from "../../../commons/backdrop";
 import InputLabel from "@mui/material/InputLabel";
+
+import styles from "./index.module.scss";
+import { updateEmployee, deleteEmployee } from "../../../utils/firebase";
+import Backdrop from "../../commons/backdrop";
+
 import OutlinedInput from '@mui/material/OutlinedInput';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 
-import styles from "./index.module.scss";
+import { SECTIONS } from "../../HomePage/ListEmploye/addEmploye";
 
-export const SECTIONS = {
-  dior: {
-    WeChat: ["Front", "Back", "SalesForce", "TechLead", "PM"],
-    STAR: ["IOS", "Qa", "SalesForce", "TechLead", "PM"],
-    NOVA: ["SalesForce", "Front", "TechLead", "PM"],
-    UberLuxury: ["SalesForce", "Qa", "TechLead", "PM"],
-  },
-};
-
-const AddEmploye = () => {
+const EditEmployee = ({ employee, children, editMode }) => {
   const [open, setOpen] = React.useState(false);
-  const [id, setId] = React.useState("");
-  const [name, setName] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const [section, setSection] = React.useState("");
-  const [subSection, setSubSection] = React.useState("");
-  const [techno, setTechno] = React.useState([]);
+  const { id, name, section, subSection, techno } = employee || {};
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const [sectionUpdate, setSection] = React.useState(section);
+  const [subSectionUpdate, setSubSection] = React.useState(subSection);
+  const [technoUpdate, setTechno] = React.useState(techno);
+
+  const [nameUpdate, setName] = React.useState(name);
+
+  const handleAddPlace = async () => {
+    setIsLoading(true);
+    await updateEmployee({
+      id,
+      section: sectionUpdate,
+      subSection: subSectionUpdate,
+      name: nameUpdate,
+      techno: technoUpdate,
+    });
+    setIsLoading(false);
+    setOpen(false);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleAddEmploye = async () => {
-    if (!id || !name) return alert("Please fill all fields");
+  const handleDeleteEmploye = async () => {
     setIsLoading(true);
-    await addEmployee({
-      id,
-      name,
-      section,
-      subSection,
-      techno,
-    });
+    await deleteEmployee(id);
     setIsLoading(false);
     setOpen(false);
   };
 
-
-
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Add Employee
-      </Button>
+      <div onClick={() => editMode && setOpen(true)} style={{ cursor: editMode ?'pointer' : '' }} className={styles.container} >{children}</div>
       <Backdrop open={isLoading} />
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add Employee</DialogTitle>
+        <DialogTitle>Edit Employee</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -77,7 +71,8 @@ const AddEmploye = () => {
             type="email"
             fullWidth
             variant="standard"
-            onChange={(e) => setId(e.target.value)}
+            value={id}
+            disabled
           />
           <TextField
             autoFocus
@@ -87,6 +82,7 @@ const AddEmploye = () => {
             type="email"
             fullWidth
             variant="standard"
+            defaultValue={name}
             onChange={(e) => setName(e.target.value)}
           />
           <div className={styles.containerSelect}>
@@ -99,6 +95,7 @@ const AddEmploye = () => {
                 onChange={(e) => {
                   setSection(e.target.value);
                 }}
+                defaultValue={section}
               >
                 {Object.keys(SECTIONS)?.map((section) => (
                   <MenuItem key={section} value={section}>
@@ -113,6 +110,7 @@ const AddEmploye = () => {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 label="Age"
+                defaultValue={subSection}
                 onChange={(e) => {
                   setSubSection(e.target.value);
                 }}
@@ -141,13 +139,13 @@ const AddEmploye = () => {
                   );
                 }}
                 input={<OutlinedInput label="Tag" />}
-                value={techno}
+                value={technoUpdate}
                 renderValue={(selected) => selected?.join(', ')}
               >
                 {SECTIONS[section] &&
                   SECTIONS[section][subSection]?.map((section) => (
                     <MenuItem key={section} value={section}>
-                        <Checkbox checked={techno.indexOf(section) > -1} />
+                        <Checkbox checked={technoUpdate.indexOf(section) > -1} />
                         <ListItemText primary={section} />
                     </MenuItem>
                   ))}
@@ -156,12 +154,13 @@ const AddEmploye = () => {
           </div>
         </DialogContent>
         <DialogActions>
+            <Button onClick={handleDeleteEmploye}>Delete</Button>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleAddEmploye}>Add</Button>
+          <Button onClick={handleAddPlace}>Update</Button>
         </DialogActions>
       </Dialog>
     </div>
   );
 };
 
-export default AddEmploye;
+export default EditEmployee;

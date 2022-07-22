@@ -1,11 +1,4 @@
 import { useEffect, useState } from "react";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import Divider from "@mui/material/Divider";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import Typography from "@mui/material/Typography";
 import { getDatabase, ref, remove, onValue } from "firebase/database";
 import { deepOrange, deepPurple } from "@mui/material/colors";
 
@@ -14,6 +7,8 @@ import styles from "./index.module.scss";
 import { db } from "../../../utils/firebase";
 
 import { stringAvatar } from "../../../utils/colors";
+
+import MapPlace from '../../MapPlace';
 
 const HomePage = ({ daySelected }) => {
   const [places, setPlaces] = useState([]);
@@ -32,6 +27,7 @@ const HomePage = ({ daySelected }) => {
   }, []);
 
   useEffect(() => {
+    setAssignedPlace([]);
     if (daySelected) {
       onValue(ref(db, `week/${daySelected}`), (snapshot) => {
         const data = snapshot.val();
@@ -56,30 +52,7 @@ const HomePage = ({ daySelected }) => {
 
   return (
     <div>
-      <div className={styles.container}>
-        {places?.map(({ numberPlace }) => {
-          const employeeAssigned = assignedPlace.find(
-            (el) => el.place === numberPlace
-          );
-          return (
-            <ListItem alignItems="flex-start" key={numberPlace}>
-              <ListItemAvatar
-                sx={{ cursor: "pointer" }}
-                onClick={() =>
-                  employeeAssigned &&
-                  handleRemovePlaceEmployee(employeeAssigned)
-                }
-              >
-                <Avatar
-                  {...stringAvatar(
-                    employeeAssigned ? employeeAssigned.name : numberPlace
-                  )}
-                />
-              </ListItemAvatar>
-            </ListItem>
-          );
-        })}
-      </div>
+      <MapPlace {...({ handleRemovePlaceEmployee, places, assignedPlace })} />
     </div>
   );
 };

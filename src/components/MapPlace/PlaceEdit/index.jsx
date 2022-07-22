@@ -8,50 +8,55 @@ import DialogTitle from "@mui/material/DialogTitle";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { addEmployee } from "../../../../utils/firebase";
 import InputLabel from "@mui/material/InputLabel";
 
-import styles from './index.module.scss';
-import { addPlace } from '../../../../utils/firebase';
-import Backdrop from '../../../commons/backdrop';
+import styles from "./index.module.scss";
+import { addPlace, removePlace } from "../../../utils/firebase";
+import Backdrop from "../../commons/backdrop";
 
-import { SECTIONS } from "../../ListEmploye/addEmploye";
+import { SECTIONS } from "../../HomePage/ListEmploye/addEmploye";
 
-const AddPlace= () => {
+const PlaceEdit = ({ place, children, editMode }) => {
   const [open, setOpen] = React.useState(false);
-  const [numberPlace, setNumberPlace] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const [section, setSection] = React.useState("");
-  const [subSection, setSubSection] = React.useState("");
+  const { numberPlace, section, subSection } = place || {};
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const [sectionUpdate, setSection] = React.useState(section);
+  const [subSectionUpdate, setSubSection] = React.useState(subSection);
+
+
+  const handleAddPlace = async () => {
+    setIsLoading(true);
+    await addPlace({
+      numberPlace,
+      section: sectionUpdate,
+      subSection: subSectionUpdate,
+    });
+    setIsLoading(false);
+    setOpen(false);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleAddPlace = async() => {
+
+  const handleDeletePlace = async () => {
     setIsLoading(true);
-    await addPlace({
-      numberPlace,
-      section,
-      subSection
-    });
+    await removePlace(numberPlace);
     setIsLoading(false);
     setOpen(false);
   };
 
+
+
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Add Place
-      </Button>
+      <div onClick={() => editMode && setOpen(true)} style={{ cursor: editMode ?'pointer' : '' }}>{children}</div>
       <Backdrop open={isLoading} />
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add Place</DialogTitle>
+        <DialogTitle>Edit Place</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -61,7 +66,8 @@ const AddPlace= () => {
             type="number"
             fullWidth
             variant="standard"
-            onChange={(e) => setNumberPlace(e.target.value)}
+            value={numberPlace}
+            disabled
           />
           <div className={styles.containerSelect}>
             <FormControl fullWidth>
@@ -70,6 +76,7 @@ const AddPlace= () => {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 label="Age"
+                defaultValue={section}
                 onChange={(e) => {
                   setSection(e.target.value);
                 }}
@@ -87,12 +94,13 @@ const AddPlace= () => {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 label="Age"
+                defaultValue={subSection}
                 onChange={(e) => {
                   setSubSection(e.target.value);
                 }}
               >
-                {SECTIONS[section] &&
-                  Object.keys(SECTIONS[section])?.map((section) => (
+                {SECTIONS[sectionUpdate] &&
+                  Object.keys(SECTIONS[sectionUpdate])?.map((section) => (
                     <MenuItem key={section} value={section}>
                       {section}
                     </MenuItem>
@@ -102,12 +110,13 @@ const AddPlace= () => {
           </div>
         </DialogContent>
         <DialogActions>
+          <Button onClick={handleDeletePlace}>Remove</Button>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleAddPlace}>Add</Button>
+          <Button onClick={handleAddPlace}>Update</Button>
         </DialogActions>
       </Dialog>
     </div>
   );
 };
 
-export default AddPlace;
+export default PlaceEdit;
