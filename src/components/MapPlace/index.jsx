@@ -20,22 +20,44 @@ const MapPlace = ({
 }) => {
   return (
     <div>
+      <div className={styles.availablePlace}>
+        Available places
+        <Avatar
+          {...stringAvatar(
+            (places?.length - assignedPlace?.length)?.toString()
+          )}
+        />
+      </div>
       <div className={styles.container}>
         {places?.map(({ numberPlace, section, subSection }, index) => {
           const employeeAssigned = assignedPlace.find(
             (el) => el.place === numberPlace
           );
           return (
-            <div className={Math.floor(index / 4) % 2 ? styles.placeElementEven : styles.placeElement}  key={numberPlace}>
+            <div
+              className={
+                Math.floor(index / 4) % 2
+                  ? styles.placeElementEven
+                  : styles.placeElement
+              }
+              key={numberPlace}
+            >
               <PlaceEdit
                 place={{ numberPlace, section, subSection }}
                 editMode={editMode}
               >
                 <ListItem alignItems="flex-start">
                   <ListItemAvatar
-                    sx={{ cursor: editMode && employeeAssigned ? "pointer" : ''}}
+                    sx={{
+                      cursor:
+                        handleRemovePlaceEmployee && employeeAssigned
+                          ? "pointer"
+                          : "",
+                    }}
                     onClick={() =>
-                      employeeAssigned && editMode && handleRemovePlaceEmployee(employeeAssigned)
+                      employeeAssigned &&
+                      handleRemovePlaceEmployee &&
+                      handleRemovePlaceEmployee(employeeAssigned)
                     }
                   >
                     <Avatar
@@ -46,7 +68,7 @@ const MapPlace = ({
                   </ListItemAvatar>
                   <ListItemText
                     primary={employeeAssigned?.name || ``}
-                    secondary={employeeAssigned?.name && <div></div>}
+                    secondary={employeeAssigned?.name && <div>place : {numberPlace}</div>}
                   />
                   <div>
                     {section} / {subSection}

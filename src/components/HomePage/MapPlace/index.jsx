@@ -1,21 +1,23 @@
 import { useEffect, useState } from "react";
-import { getDatabase, ref, remove, onValue } from "firebase/database";
+import { get, ref, remove, onValue } from "firebase/database";
 import { deepOrange, deepPurple } from "@mui/material/colors";
 
 import styles from "./index.module.scss";
 
 import { db } from "../../../utils/firebase";
-
-import { stringAvatar } from "../../../utils/colors";
+import BackDrop from '../../commons/BackDrop';
 
 import MapPlace from '../../MapPlace';
 
 const HomePage = ({ daySelected }) => {
   const [places, setPlaces] = useState([]);
   const [assignedPlace, setAssignedPlace] = useState([]);
+  const [allEmployees, setAllEmployees] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    onValue(ref(db, `places`), (snapshot) => {
+    onValue(ref(db, `places`), async(snapshot) => {
       const data = snapshot.val();
       const places =
         data &&
@@ -24,12 +26,15 @@ const HomePage = ({ daySelected }) => {
         }));
       setPlaces(places);
     });
+
   }, []);
 
   useEffect(() => {
+    setIsLoading(true);
     setAssignedPlace([]);
     if (daySelected) {
-      onValue(ref(db, `week/${daySelected}`), (snapshot) => {
+      onValue(ref(db, `week/${daySelected}`), async(snapshot) => {
+        setIsLoading(true);
         const data = snapshot.val();
         if (data) {
           const employeesAssigned =
@@ -41,7 +46,18 @@ const HomePage = ({ daySelected }) => {
             (el) => el.place
           );
           setAssignedPlace(employeesWithPlace);
+          // const employesSnapshot = await get(ref(db, `employees`));
+          // const employesGlobal = employesSnapshot.val();
+          // if (employesGlobal) {
+          //   const employes =
+          //   employesGlobal &&
+          //   Object.keys(employesGlobal).map((key) => ({
+          //     ...employesGlobal[key],
+          //   })).filter((el) => !employeesAssigned?.find(el2 => el2.id === el.id && (el2.place || el2.remote || el2.off)));
+          //   setAllEmployeesNot(employes);
+          // }
         }
+        setIsLoading(false);
       });
     }
   }, [daySelected]);
@@ -52,7 +68,8 @@ const HomePage = ({ daySelected }) => {
 
   return (
     <div>
-      <MapPlace {...({ handleRemovePlaceEmployee, places, assignedPlace })} />
+      <BackDrop open={isLoading} />
+      <MapPlace {...({ handleRemovePlaceEmployee, places, assignedPlace, allEmployeesLength: allEmployees?.length })} />
     </div>
   );
 };

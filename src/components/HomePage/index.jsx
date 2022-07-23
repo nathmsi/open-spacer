@@ -7,6 +7,7 @@ import DaySelector from "./DaySelector";
 import MapPlace from "./MapPlace";
 import NotAssignedEmployee from "./NotAssignedEmployee";
 import RemoteEmployee from "./RemoteEmployee";
+import OffEmployee from "./DayOffEmployee";
 
 import styles from "./index.module.scss";
 
@@ -22,6 +23,7 @@ const HomePage = () => {
         <div className={styles.employeeAssign}>
           <NotAssignedEmployee daySelected={daySelected} />
           <RemoteEmployee daySelected={daySelected} />
+          <OffEmployee daySelected={daySelected} />
         </div>
       </div>
     </div>

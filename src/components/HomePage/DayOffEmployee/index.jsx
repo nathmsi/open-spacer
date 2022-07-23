@@ -15,21 +15,9 @@ import styles from "./index.module.scss";
 import { db } from "../../../utils/firebase";
 import { stringAvatar } from "../../../utils/colors";
 
-const NotAssignedEmployee = ({ daySelected }) => {
-  // const [employes, setEmployes] = useState([]);
-  const [remoteEmployee, setRemoteEmployee] = useState([]);
+const OffEmployee = ({ daySelected }) => {
+  const [offEmployee, setOffEmployee] = useState([]);
 
-  // useEffect(() => {
-  //   onValue(ref(db, `employees`), (snapshot) => {
-  //     const data = snapshot.val();
-  //     const employes =
-  //       data &&
-  //       Object.keys(data).map((key) => ({
-  //         ...data[key],
-  //       }));
-  //     setEmployes(employes);
-  //   });
-  // }, []);
 
   useEffect(() => {
     if (daySelected) {
@@ -44,10 +32,10 @@ const NotAssignedEmployee = ({ daySelected }) => {
               ...employesGlobal[key],
             }));
           const assignedEmployee = data?.employees || [];
-          const remoteEmployee = employes.filter(
-            (el) => assignedEmployee[el.id]?.remote
+          const offEmployeeRes = employes.filter(
+            (el) => assignedEmployee[el.id]?.off
           );
-          setRemoteEmployee(remoteEmployee);
+          setOffEmployee(offEmployeeRes);
         }
       });
     }
@@ -59,9 +47,9 @@ const NotAssignedEmployee = ({ daySelected }) => {
 
   return (
     <div>
-      <div className={styles.title}>Remote Employee ({remoteEmployee?.length})</div>
+      <div className={styles.title}>Off Employee ({offEmployee?.length})</div>
       <div className={styles.container}>
-        {remoteEmployee?.map(({ name, id }) => (
+        {offEmployee?.map(({ name, id }) => (
           <ListItem
             alignItems="flex-start"
             key={id}
@@ -98,4 +86,4 @@ const NotAssignedEmployee = ({ daySelected }) => {
   );
 };
 
-export default NotAssignedEmployee;
+export default OffEmployee;

@@ -18,6 +18,9 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { stringAvatar } from "../../utils/colors";
 import EditEmployee from "./EditEmployee";
+import DoDisturbOffIcon from '@mui/icons-material/DoDisturbOff';
+
+import { SECTION } from '../../utils/constants';
 
 const EmployeeCard = ({
   employee,
@@ -25,6 +28,7 @@ const EmployeeCard = ({
   places,
   placesInUse,
   handleRemoteEmployee,
+  handleOffEmployee,
   editMode
 }) => {
   return (
@@ -52,10 +56,10 @@ const EmployeeCard = ({
                       }
                     >
                       {places
-                        ?.filter((el) => !placesInUse.includes(el))
-                        ?.map((place) => (
-                          <MenuItem key={place} value={place}>
-                            {place}
+                        ?.filter((el) => !placesInUse.includes(el?.numberPlace) && el.section === section && el.subSection === subSection)
+                        ?.map(({ numberPlace }) => (
+                          <MenuItem key={numberPlace} value={numberPlace}>
+                            {numberPlace}
                           </MenuItem>
                         ))}
                     </Select>
@@ -71,6 +75,17 @@ const EmployeeCard = ({
                   >
                     <HomeOutlinedIcon />
                   </IconButton>
+                )}
+                {handleOffEmployee && (
+                   <IconButton
+                   edge="end"
+                   aria-label="delete"
+                   onClick={() =>
+                     handleRemoteEmployee && handleOffEmployee({ name, id })
+                   }
+                 >
+                   <DoDisturbOffIcon />
+                 </IconButton>
                 )}
               </div>
             }
@@ -89,7 +104,7 @@ const EmployeeCard = ({
                 >
                   {/* <div>id : {id} </div> */}
                   <div> {section} / {subSection} </div>
-                  <div>techno: {techno}</div>
+                  <div>techno: {techno.join(',')}</div>
                 </div>
               }
             />

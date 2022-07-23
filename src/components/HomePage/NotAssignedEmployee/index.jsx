@@ -33,7 +33,9 @@ const NotAssignedEmployee = ({ daySelected }) => {
       const data = snapshot.val();
       const places =
         data &&
-        Object.keys(data).map((key) => key);
+        Object.keys(data).map((key) => ({
+          ...data[key],
+        }));
       setPlaces(places);
     });
   }, []);
@@ -84,11 +86,18 @@ const NotAssignedEmployee = ({ daySelected }) => {
     });
   };
 
+  const handleOffEmployee = async (employee) => {
+    await set(ref(db, `week/${daySelected}/employees/${employee.id}`), {
+      ...employee,
+      off: true,
+    });
+  };
+
 
   return (
     <div>
-      <div className={styles.title}>Unassigned Employee</div>
-      <EmployeeCard {...({ employee: unasignedEmployee , handleChangePlace, places, placesInUse, handleRemoteEmployee })} />
+      <div className={styles.title}>Unassigned Employee ({unasignedEmployee?.length})</div>
+      <EmployeeCard {...({ employee: unasignedEmployee , handleChangePlace, places, placesInUse, handleRemoteEmployee, handleOffEmployee })} />
     </div>
   );
 };
