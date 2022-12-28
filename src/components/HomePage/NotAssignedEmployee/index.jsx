@@ -42,34 +42,35 @@ const NotAssignedEmployee = ({ daySelected }) => {
 
   useEffect(() => {
     if (daySelected) {
-      onValue(ref(db, `week/${daySelected}`), async (snapshot) => {
-        const data = snapshot.val();
-        const employesSnapshot = await get(ref(db, `employees`));
-        const employesGlobal = employesSnapshot.val();
-        if (employesGlobal) {
-          const employes =
-            employesGlobal &&
-            Object.keys(employesGlobal).map((key) => ({
-              ...employesGlobal[key],
-            }));
-          const assignedEmployee = data?.employees || {};
+      onValue(ref(db, `employees`),(employeeSnapShot) => {
+        const employesGlobal = employeeSnapShot && employeeSnapShot.val();
+        onValue(ref(db, `week/${daySelected}`), async (snapshot) => {
+          const data = snapshot.val();
+          if (employesGlobal) {
+            const employes =
+              employesGlobal &&
+              Object.keys(employesGlobal).map((key) => ({
+                ...employesGlobal[key],
+              }));
+            const assignedEmployee = data?.employees || {};
 
-          if (assignedEmployee?.length === 0) {
-            setUnasignedEmployee(employes);
-          } else {
-            const employeesListAssigned = assignedEmployee && Object.keys(assignedEmployee).map((key) => ({
-              ...assignedEmployee[key]
-            }));
-  
-            const placeAlreadyUse =  employeesListAssigned?.filter(el => el.place).map(el => el.place)
-            setPlacesInUse(placeAlreadyUse);
-            const unasignedEmployee = employes.filter(
-              (el) => !assignedEmployee[el.id]
-            );
-            setUnasignedEmployee(unasignedEmployee);
+            if (assignedEmployee?.length === 0) {
+              setUnasignedEmployee(employes);
+            } else {
+              const employeesListAssigned = assignedEmployee && Object.keys(assignedEmployee).map((key) => ({
+                ...assignedEmployee[key]
+              }));
+    
+              const placeAlreadyUse =  employeesListAssigned?.filter(el => el.place).map(el => el.place)
+              setPlacesInUse(placeAlreadyUse);
+              const unasignedEmployee = employes.filter(
+                (el) => !assignedEmployee[el.id]
+              );
+              setUnasignedEmployee(unasignedEmployee);
+            }
           }
-        }
-      });
+        });
+    })
     }
   }, [daySelected]);
 

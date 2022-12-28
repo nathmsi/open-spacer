@@ -41,12 +41,23 @@ const AddPlace= () => {
       section,
       subSection
     });
+    // function range(start, end) {
+    //   return Array(end - start + 1).fill().map((_, idx) => start + idx)
+    // }
+    // range(1,40).forEach(async(el)=> {
+    //   console.log(el)
+    //   await addPlace({
+    //     numberPlace: el.toString(),
+    //     section,
+    //     subSection,
+    //   });
+    // })
     setIsLoading(false);
     setOpen(false);
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <Button variant="outlined" onClick={handleClickOpen}>
         Add Place
       </Button>

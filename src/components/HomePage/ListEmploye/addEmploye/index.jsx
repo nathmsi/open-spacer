@@ -29,6 +29,14 @@ export const SECTIONS = {
     Manager: 'MANAGER',
     Wechat: 'WECHAT'
   },
+  'Eden Gallery': {
+    ios: 'IOS',
+    sf: 'SF',
+    Manager: 'MANAGER',
+  },
+  'FREE': {
+    free: 'FREE'
+  }
 };
 
 const AddEmploye = () => {

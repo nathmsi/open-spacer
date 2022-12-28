@@ -110,7 +110,7 @@ const PlaceEdit = ({ place, children, editMode }) => {
           </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDeletePlace}>Remove</Button>
+          {/* <Button onClick={handleDeletePlace}>Remove</Button> */}
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handleAddPlace}>Update</Button>
         </DialogActions>

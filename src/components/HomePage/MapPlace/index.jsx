@@ -29,6 +29,18 @@ const HomePage = ({ daySelected }) => {
 
   }, []);
 
+  useEffect(()=>{
+    // onValue(ref(db, `employees`),(employeeSnapShot) => {
+    //   const employesGlobal = employeeSnapShot && employeeSnapShot.val();
+    //   console.log({ employesGlobal, assignedPlace })
+    //   const deletedEmployees = assignedPlace.filter(el => employesGlobal[el.id]);
+    //   deletedEmployees.forEach(async el => {
+    //     await handleRemovePlaceEmployee(el)
+    //   })
+    //   console.log({deletedEmployees})
+    // })
+  },[assignedPlace])
+
   useEffect(() => {
     setIsLoading(true);
     setAssignedPlace([]);

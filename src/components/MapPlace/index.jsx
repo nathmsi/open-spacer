@@ -66,10 +66,10 @@ const MapPlace = ({
                       )}
                     />
                   </ListItemAvatar>
-                  <ListItemText
+                  {employeeAssigned?.name && <ListItemText
                     primary={employeeAssigned?.name || ``}
                     secondary={employeeAssigned?.name && <div>place : {numberPlace}</div>}
-                  />
+                  />}
                   <div>
                     {section} / {subSection}
                   </div>
