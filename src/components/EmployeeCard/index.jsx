@@ -32,9 +32,8 @@ const EmployeeCard = ({
   editMode
 }) => {
   return (
-    <div className={editMode ? styles.container : ''}>
+    <div className={styles.container}>
       {employee?.map(({ name, id, section, subSection, techno, ...rest }) => (
-        <>
         <EditEmployee
           key={id}
           employee={{ name, id, section, subSection, techno, ...rest }}
@@ -110,9 +109,8 @@ const EmployeeCard = ({
               }
             />
           </ListItem>
+          <Divider variant="inset" />
         </EditEmployee>
-        <Divider variant="inset" />
-        </>
       ))}
     </div>
   );
