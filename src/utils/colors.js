@@ -1,3 +1,21 @@
+const colorPlace = {
+  dior:{
+      sf: '#2196f3',
+      Wechat: '#ff7961',
+      ios: '#d05ce3',
+      Manager: '#9e9e9e',
+  },
+  ["Eden Gallery"]:"#fdd835",
+  FREE:"#76ff03"
+}
+
+export const chooseColorPlace = (section,subSection) => {
+  if(typeof colorPlace[section] === 'object') {
+      return colorPlace[section][subSection];
+  }
+  return colorPlace[section];
+}
+
 export function stringToColor(string) {
   let hash = 0;
   let i;
@@ -29,6 +47,9 @@ export function stringAvatar(name) {
       children = name[0];
     }
     return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
       children,
     };
   } catch (error) {
@@ -36,3 +57,12 @@ export function stringAvatar(name) {
     return {};
   }
 }
+
+export const getColorPlace = ({
+  name,numberPlace,section,subSection
+}) => ({
+  ...stringAvatar(name || numberPlace),
+  sx:{
+    bgcolor:chooseColorPlace(section,subSection)
+  }
+});

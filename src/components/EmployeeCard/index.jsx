@@ -16,7 +16,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { stringAvatar } from "../../utils/colors";
+import { getColorPlace, stringAvatar } from "../../utils/colors";
 import EditEmployee from "./EditEmployee";
 import DoDisturbOffIcon from '@mui/icons-material/DoDisturbOff';
 
@@ -91,7 +91,7 @@ const EmployeeCard = ({
             }
           >
             <ListItemAvatar>
-              <Avatar {...stringAvatar(name)} />
+              <Avatar {...getColorPlace({name,section,subSection})} />
             </ListItemAvatar>
             <ListItemText
               primary={name}

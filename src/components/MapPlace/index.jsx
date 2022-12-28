@@ -8,10 +8,9 @@ import styles from "./index.module.scss";
 
 import { db } from "../../utils/firebase";
 
-import { stringAvatar } from "../../utils/colors";
+import { getColorPlace, stringAvatar } from "../../utils/colors";
 
 import PlaceEdit from "./PlaceEdit";
-import { chooseColorPlace } from "./utils";
 
 const MapPlace = ({
   places,
@@ -34,12 +33,12 @@ const MapPlace = ({
           const employeeAssigned = assignedPlace.find(
             (el) => el.place === numberPlace
           );
-          const colorPlace = {
-            ...stringAvatar(employeeAssigned?.name || numberPlace),
-            sx:{
-              bgcolor:chooseColorPlace(section,subSection)
-            }
-          };
+          const colorPlace = getColorPlace({
+            name:employeeAssigned?.name,
+            numberPlace,
+            section,
+            subSection,
+          })
           return (
             <div
               className={
