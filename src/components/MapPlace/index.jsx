@@ -11,6 +11,7 @@ import { db } from "../../utils/firebase";
 import { stringAvatar } from "../../utils/colors";
 
 import PlaceEdit from "./PlaceEdit";
+import { chooseColorPlace } from "./utils";
 
 const MapPlace = ({
   places,
@@ -33,6 +34,11 @@ const MapPlace = ({
           const employeeAssigned = assignedPlace.find(
             (el) => el.place === numberPlace
           );
+          const colorPlace = employeeAssigned ? stringAvatar(employeeAssigned.name) : {
+            sx:{
+              bgcolor:chooseColorPlace(section,subSection)
+            }
+          };
           return (
             <div
               className={
@@ -61,9 +67,7 @@ const MapPlace = ({
                     }
                   >
                     <Avatar
-                      {...stringAvatar(
-                        employeeAssigned ? employeeAssigned.name : numberPlace
-                      )}
+                      {...colorPlace}    
                     />
                   </ListItemAvatar>
                   {employeeAssigned?.name && <ListItemText
