@@ -28,7 +28,7 @@ const EditEmployee = ({ employee, children, editMode }) => {
 
   const [sectionUpdate, setSection] = React.useState(section);
   const [subSectionUpdate, setSubSection] = React.useState(subSection);
-  const [technoUpdate, setTechno] = React.useState(techno);
+  // const [technoUpdate, setTechno] = React.useState(techno);
 
   const [nameUpdate, setName] = React.useState(name);
 
@@ -39,7 +39,7 @@ const EditEmployee = ({ employee, children, editMode }) => {
       section: sectionUpdate,
       subSection: subSectionUpdate,
       name: nameUpdate,
-      techno: technoUpdate,
+      // techno: technoUpdate,
     });
     setIsLoading(false);
     setOpen(false);
@@ -123,7 +123,7 @@ const EditEmployee = ({ employee, children, editMode }) => {
                   ))}
               </Select>
             </FormControl>
-            <FormControl fullWidth>
+            {/* <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Techno</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -150,7 +150,7 @@ const EditEmployee = ({ employee, children, editMode }) => {
                     </MenuItem>
                   ))}
               </Select>
-            </FormControl>
+            </FormControl> */}
           </div>
         </DialogContent>
         <DialogActions>

@@ -16,6 +16,7 @@ import { addPlace } from '../../../../utils/firebase';
 import Backdrop from '../../../commons/backdrop';
 
 import { SECTIONS } from "../../ListEmploye/addEmploye";
+import { v4 as uuidv4 } from 'uuid';
 
 const AddPlace= () => {
   const [open, setOpen] = React.useState(false);
@@ -36,7 +37,7 @@ const AddPlace= () => {
   const handleAddPlace = async() => {
     setIsLoading(true);
     await addPlace({
-      numberPlace,
+      numberPlace: numberPlace || uuidv4(),
       section,
       subSection
     });

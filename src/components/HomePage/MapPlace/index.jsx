@@ -5,7 +5,7 @@ import { deepOrange, deepPurple } from "@mui/material/colors";
 import styles from "./index.module.scss";
 
 import { db } from "../../../utils/firebase";
-import BackDrop from '../../commons/BackDrop';
+import BackDrop from '../../commons/backdrop/index';
 
 import MapPlace from '../../MapPlace';
 
@@ -36,6 +36,7 @@ const HomePage = ({ daySelected }) => {
       onValue(ref(db, `week/${daySelected}`), async(snapshot) => {
         setIsLoading(true);
         const data = snapshot.val();
+        console.log("week-employee-changed",data)
         if (data) {
           const employeesAssigned =
             data.employees &&
@@ -56,6 +57,8 @@ const HomePage = ({ daySelected }) => {
           //   })).filter((el) => !employeesAssigned?.find(el2 => el2.id === el.id && (el2.place || el2.remote || el2.off)));
           //   setAllEmployeesNot(employes);
           // }
+        } else {
+          setAssignedPlace([]);
         }
         setIsLoading(false);
       });
@@ -63,8 +66,11 @@ const HomePage = ({ daySelected }) => {
   }, [daySelected]);
 
   const handleRemovePlaceEmployee = async (employee) => {
+    console.log({employee})
     await remove(ref(db, `week/${daySelected}/employees/${employee.id}`));
   };
+
+  console.log({ assignedPlace})
 
   return (
     <div>

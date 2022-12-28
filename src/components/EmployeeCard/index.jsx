@@ -56,7 +56,7 @@ const EmployeeCard = ({
                       }
                     >
                       {places
-                        ?.filter((el) => !placesInUse.includes(el?.numberPlace) && el.section === section && el.subSection === subSection)
+                        // ?.filter((el) => !placesInUse.includes(el?.numberPlace) && el.section === section && el.subSection === subSection)
                         ?.map(({ numberPlace }) => (
                           <MenuItem key={numberPlace} value={numberPlace}>
                             {numberPlace}
@@ -104,7 +104,7 @@ const EmployeeCard = ({
                 >
                   {/* <div>id : {id} </div> */}
                   <div> {section} / {subSection} </div>
-                  <div>techno: {techno.join(',')}</div>
+                  {/* <div>techno: {techno?.join(',')}</div> */}
                 </div>
               }
             />

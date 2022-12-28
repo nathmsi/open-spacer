@@ -16,13 +16,18 @@ import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 
 import styles from "./index.module.scss";
+import { v4 as uuidv4 } from 'uuid';
 
 export const SECTIONS = {
   dior: {
-    WeChat: ["Front", "Back", "SalesForce", "TechLead", "PM"],
-    STAR: ["IOS", "Qa", "SalesForce", "TechLead", "PM"],
-    NOVA: ["SalesForce", "Front", "TechLead", "PM"],
-    UberLuxury: ["SalesForce", "Qa", "TechLead", "PM"],
+    // WeChat: ["Front", "Back", "SalesForce", "TechLead", "PM"],
+    // STAR: ["IOS", "Qa", "SalesForce", "TechLead", "PM"],
+    // NOVA: ["SalesForce", "Front", "TechLead", "PM"],
+    // UberLuxury: ["SalesForce", "Qa", "TechLead", "PM"],
+    ios: 'IOS',
+    sf: 'SF',
+    Manager: 'MANAGER',
+    Wechat: 'WECHAT'
   },
 };
 
@@ -34,7 +39,7 @@ const AddEmploye = () => {
 
   const [section, setSection] = React.useState("");
   const [subSection, setSubSection] = React.useState("");
-  const [techno, setTechno] = React.useState([]);
+  // const [techno, setTechno] = React.useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -45,14 +50,14 @@ const AddEmploye = () => {
   };
 
   const handleAddEmploye = async () => {
-    if (!id || !name) return alert("Please fill all fields");
+    if (!name) return alert("Please fill all fields");
     setIsLoading(true);
     await addEmployee({
-      id,
+      id: uuidv4(),
       name,
       section,
       subSection,
-      techno,
+      // techno,
     });
     setIsLoading(false);
     setOpen(false);
@@ -69,7 +74,7 @@ const AddEmploye = () => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Add Employee</DialogTitle>
         <DialogContent>
-          <TextField
+          {/* <TextField
             autoFocus
             margin="dense"
             id="name"
@@ -77,8 +82,9 @@ const AddEmploye = () => {
             type="email"
             fullWidth
             variant="standard"
+            disabled
             onChange={(e) => setId(e.target.value)}
-          />
+          /> */}
           <TextField
             autoFocus
             margin="dense"
@@ -125,7 +131,7 @@ const AddEmploye = () => {
                   ))}
               </Select>
             </FormControl>
-            <FormControl fullWidth>
+            {/* <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Techno</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -152,7 +158,7 @@ const AddEmploye = () => {
                     </MenuItem>
                   ))}
               </Select>
-            </FormControl>
+            </FormControl> */}
           </div>
         </DialogContent>
         <DialogActions>
