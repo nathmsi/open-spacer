@@ -34,7 +34,7 @@ const MapPlace = ({
           const employeeAssigned = assignedPlace.find(
             (el) => el.place === numberPlace
           );
-          const colorPlace = employeeAssigned ? stringAvatar(employeeAssigned.name) : {
+          const colorPlace = {
             sx:{
               bgcolor:chooseColorPlace(section,subSection)
             }

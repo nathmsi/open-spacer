@@ -2,10 +2,11 @@ const colorPlace : any = {
     dior:{
         sf: '#2196f3',
         Wechat: '#ff7961',
-        ios: '#80e27e',
+        ios: '#d05ce3',
         Manager: '#9e9e9e',
     },
-    EdenGalery:"#fdd835"
+    ["Eden Gallery"]:"#fdd835",
+    FREE:"#76ff03"
 }
 
 export const chooseColorPlace = (section:string,subSection:string) => {
