@@ -16,7 +16,6 @@ const HomePage = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.title}>Open Spacer</div>
         <div className={styles.employeeAssign}>
           <NotAssignedEmployee daySelected={daySelected} />
           <RemoteEmployee daySelected={daySelected} />
