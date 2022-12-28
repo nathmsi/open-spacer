@@ -1,11 +1,10 @@
 import styles from '../styles/Home.module.css'
-import PlacePage from '../src/components/PlacePage';
-
+import EditMapPage from '../src/components/HomePage'
 
 const Place = () => {
   return (
     <div className={styles.container}>
-        <PlacePage />
+        <EditMapPage />
     </div>
   )
 }
