@@ -20,11 +20,13 @@ import Select from "@mui/material/Select";
 import { db } from "../../../utils/firebase";
 
 import EmployeeCard from '../../EmployeeCard'
+import { TextField } from "@mui/material";
+import { width } from "@mui/system";
 
 const NotAssignedEmployee = ({ daySelected }) => {
   // const [employes, setEmployes] = useState([]);
   const [unasignedEmployee, setUnasignedEmployee] = useState([]);
-
+  const [unasignedEmployeeOriginal, setUnasignedEmployeeOriginal] = useState([]);
   const [places, setPlaces] = useState([]);
   const [placesInUse, setPlacesInUse] = useState([]);
 
@@ -67,6 +69,7 @@ const NotAssignedEmployee = ({ daySelected }) => {
                 (el) => !assignedEmployee[el.id]
               );
               setUnasignedEmployee(unasignedEmployee);
+              setUnasignedEmployeeOriginal(unasignedEmployee);
             }
           }
         });
@@ -94,10 +97,24 @@ const NotAssignedEmployee = ({ daySelected }) => {
     });
   };
 
+  const handleChange = (e) => {
+    const { value } = e.target;
+    if (value) {
+      const filterEmployee = unasignedEmployeeOriginal.filter(el => el.name.toLowerCase().includes(value.toLowerCase()))
+      setUnasignedEmployee(filterEmployee)
+    } else {
+      setUnasignedEmployee(unasignedEmployeeOriginal)
+    }
+  }
 
   return (
     <div>
       <div className={styles.title}>Unassigned Employee ({unasignedEmployee?.length})</div>
+      <TextField variant="outlined" onChange={handleChange} sx={{
+        width: '100%',
+        marginBottom: '20px',
+        marginTop: '20px'
+      }}/>
       <EmployeeCard {...({ employee: unasignedEmployee , handleChangePlace, places, placesInUse, handleRemoteEmployee, handleOffEmployee })} />
     </div>
   );
