@@ -16,11 +16,15 @@
 
 .container {
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(2,1fr);
     @media only screen and (max-width: 1000px) {
         grid-template-columns: repeat(1,1fr);
     }
     gap: 1rem;
     margin: 1rem 0;
     margin-bottom: 2rem;
+    overflow: scroll;
+    max-height: 28vh;
+
+    padding: 1rem;
 }

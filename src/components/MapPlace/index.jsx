@@ -9,6 +9,9 @@ import styles from "./index.module.scss";
 import { db } from "../../utils/firebase";
 
 import { getColorPlace, stringAvatar } from "../../utils/colors";
+import ModalUnassigned from './ModalUnassigned'
+import ModalRemote from './ModalRemote'
+import ModalOff from './ModalOff'
 
 import PlaceEdit from "./PlaceEdit";
 
@@ -17,16 +20,30 @@ const MapPlace = ({
   assignedPlace,
   handleRemovePlaceEmployee,
   editMode,
+  daySelected
 }) => {
   return (
-    <div>
+    <div className={styles.MainContainer}>
       <div className={styles.availablePlace}>
-        Available places
-        <Avatar
-          {...stringAvatar(
-            (places?.length - assignedPlace?.length)?.toString()
-          )}
-        />
+        {/* <span className="content-span">
+          <Avatar
+            {...stringAvatar(
+              (assignedPlace?.length)?.toString()
+            )}
+          />
+          Assigned
+        </span> */}
+        <span className={styles.contentSpan}>
+          <Avatar
+            {...stringAvatar(
+              (places?.length - assignedPlace?.length)?.toString()
+            )}
+          />
+          Available
+        </span>
+        <ModalUnassigned daySelected={daySelected} totalPlace={places?.length} assignedCount={assignedPlace?.length} />
+        <ModalRemote daySelected={daySelected} countUnassigned={places?.length - assignedPlace?.length}/>
+        <ModalOff daySelected={daySelected} countUnassigned={places?.length - assignedPlace?.length}/>
       </div>
       <div className={styles.container}>
         {places?.map(({ numberPlace, section, subSection }, index) => {
@@ -72,11 +89,8 @@ const MapPlace = ({
                   </ListItemAvatar>
                   {employeeAssigned?.name && <ListItemText
                     primary={employeeAssigned?.name || ``}
-                    secondary={employeeAssigned?.name && <div>place : {numberPlace}</div>}
+                    secondary={section && <div>{section} / {subSection}</div>}
                   />}
-                  <div>
-                    {section} / {subSection}
-                  </div>
                 </ListItem>
               </PlaceEdit>
             </div>

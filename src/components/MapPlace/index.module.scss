@@ -6,7 +6,7 @@
   //     grid-template-columns: repeat(2,1fr);
   // }
   @media only screen and (max-width: 600px) {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   // max-height: 50vh;
@@ -14,11 +14,14 @@
 
   margin: 0rem 0;
 
-  gap: 1.5rem;
+  gap: 0.2rem;
 
   li {
     justify-content: flex-start;
-    padding: 0.5rem;
+    padding: 0.1rem;
+    span {
+      font-size: 0.8rem;
+    }
   }
 
   //   .placeElement:nth-child(4n + 4) {
@@ -27,11 +30,13 @@
 }
 
 .placeElement {
-  border-top: 1px solid black;
+  border-bottom: 1px solid rgb(86, 86, 86);
+  margin-top: 0.5rem;
 }
 
 .placeElementEven {
-  border-bottom: 1px solid black;
+  border-top: 1px solid rgb(86, 86, 86);
+  margin-bottom: 0.5rem;
 }
 
 .title {
@@ -42,8 +47,22 @@
 
 
 .availablePlace {
-  margin: 2rem 0;
+  margin: 1rem 0;
   display: flex;
   align-items: center;
   gap: 1rem;
+  cursor: pointer;
+}
+.contentSpan {
+  display: flex;
+  align-items: center;
+  padding: 0.4rem;
+  gap: 0.4rem;
+  border: 1px solid rgb(86, 86, 86);
+}
+
+.MainContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }

@@ -16,15 +16,16 @@ const HomePage = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.title}>{"Open Spacer"}</div>
       <DaySelector handleSelectDay={(day) => setDaySelected(day)} />
       <div className={styles.Mapcontainer}>
         <MapPlace daySelected={daySelected} />
       </div>
-        <div className={styles.employeeAssign}>
+        {/* <div className={styles.employeeAssign}>
           <NotAssignedEmployee daySelected={daySelected} />
           <RemoteEmployee daySelected={daySelected} />
           <OffEmployee daySelected={daySelected} />
-        </div>
+        </div> */}
     </div>
   );
 };

@@ -85,10 +85,10 @@ const HomePage = ({ daySelected }) => {
   console.log({ assignedPlace})
 
   return (
-    <div>
+    <>
       <BackDrop open={isLoading} />
-      <MapPlace {...({ handleRemovePlaceEmployee, places, assignedPlace, allEmployeesLength: allEmployees?.length })} />
-    </div>
+      <MapPlace {...({ handleRemovePlaceEmployee, places, assignedPlace, allEmployeesLength: allEmployees?.length, daySelected })} />
+    </>
   );
 };
 

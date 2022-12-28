@@ -18,11 +18,9 @@ const DaySelector = ({ handleSelectDay }) => {
   };
 
   return (
-    <div>
       <div className={styles.listDay}>
         <ButtonGroup
           variant="contained"
-          aria-label="outlined primary button group"
           className={styles.buttonGroup}
         >
           {day.map((item, index) => (
@@ -30,13 +28,13 @@ const DaySelector = ({ handleSelectDay }) => {
               key={index}
               variant={index === active ? "contained" : "outlined"}
               onClick={() => handleClick(index)}
+              className={styles.button}
             >
               {item}{" "}
             </Button>
           ))}
         </ButtonGroup>
       </div>
-    </div>
   );
 };
 

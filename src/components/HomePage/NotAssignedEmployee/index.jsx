@@ -23,12 +23,17 @@ import EmployeeCard from '../../EmployeeCard'
 import { TextField } from "@mui/material";
 import { width } from "@mui/system";
 
-const NotAssignedEmployee = ({ daySelected }) => {
+const NotAssignedEmployee = ({ daySelected, handleCountNotAssigned }) => {
   // const [employes, setEmployes] = useState([]);
   const [unasignedEmployee, setUnasignedEmployee] = useState([]);
   const [unasignedEmployeeOriginal, setUnasignedEmployeeOriginal] = useState([]);
   const [places, setPlaces] = useState([]);
   const [placesInUse, setPlacesInUse] = useState([]);
+
+  useEffect(()=>{
+    handleCountNotAssigned(unasignedEmployee?.length)
+    console.log('count',unasignedEmployee?.length)
+  },[unasignedEmployee])
 
   useEffect(() => {
     onValue(ref(db, `places`), (snapshot) => {
