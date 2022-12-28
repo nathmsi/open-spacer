@@ -29,9 +29,6 @@ export function stringAvatar(name) {
       children = name[0];
     }
     return {
-      sx: {
-        bgcolor: stringToColor(name),
-      },
       children,
     };
   } catch (error) {
