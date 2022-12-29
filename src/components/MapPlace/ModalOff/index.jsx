@@ -17,7 +17,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import EditIcon from '@mui/icons-material/Edit';
-import { get, onValue, ref } from "firebase/database";
+import { get, onValue, ref, remove } from "firebase/database";
 import { db } from "../../../utils/firebase";
 import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOutlineOutlined";
 import ListItemAvatar from "@mui/material/ListItemAvatar";

@@ -37,6 +37,8 @@ const ModalRemote = ({ daySelected, countUnassigned }) => {
     setOpen(false);
   };
 
+  console.log({remoteEmployee})
+
 
 
 
