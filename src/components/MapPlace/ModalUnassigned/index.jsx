@@ -147,10 +147,10 @@ const ModalUnassigned = ({ daySelected, totalPlace, assignedCount }) => {
         }}
       >
         <List sx={{ margin: "1rem" }}>
-          <NotAssignedEmployee
+          {/* <NotAssignedEmployee
             daySelected={daySelected}
             handleCountNotAssigned={(val) => setCountNotAssigned(val)}
-          />
+          /> */}
           <div>
             <div className={styles.title}>
               Unassigned Employee ({unasignedEmployee?.length})

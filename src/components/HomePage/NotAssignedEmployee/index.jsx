@@ -32,7 +32,6 @@ const NotAssignedEmployee = ({ daySelected, handleCountNotAssigned }) => {
 
   useEffect(()=>{
     handleCountNotAssigned(unasignedEmployee?.length)
-    console.log('count',unasignedEmployee?.length)
   },[unasignedEmployee])
 
   useEffect(() => {

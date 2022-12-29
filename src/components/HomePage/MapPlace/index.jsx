@@ -48,7 +48,6 @@ const HomePage = ({ daySelected }) => {
       onValue(ref(db, `week/${daySelected}`), async(snapshot) => {
         setIsLoading(true);
         const data = snapshot.val();
-        console.log("week-employee-changed",data)
         if (data) {
           const employeesAssigned =
             data.employees &&
@@ -78,11 +77,9 @@ const HomePage = ({ daySelected }) => {
   }, [daySelected]);
 
   const handleRemovePlaceEmployee = async (employee) => {
-    console.log({employee})
     await remove(ref(db, `week/${daySelected}/employees/${employee.id}`));
   };
 
-  console.log({ assignedPlace})
 
   return (
     <>

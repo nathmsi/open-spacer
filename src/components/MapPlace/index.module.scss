@@ -32,11 +32,13 @@
 .placeElement {
   border-bottom: 1px solid rgb(86, 86, 86);
   margin-top: 0.5rem;
+  cursor: pointer;
 }
 
 .placeElementEven {
   border-top: 1px solid rgb(86, 86, 86);
   margin-bottom: 0.5rem;
+  cursor: pointer;
 }
 
 .title {
