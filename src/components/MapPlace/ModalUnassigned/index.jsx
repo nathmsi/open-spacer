@@ -25,7 +25,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const ModalUnassigned = ({ daySelected, totalPlace, assignedCount }) => {
+const ModalUnassigned = ({ daySelected, editMode }) => {
   const [open, setOpen] = useState(false);
   const [countNotAssigned, setCountNotAssigned] = useState(0);
   // const [employes, setEmployes] = useState([]);
@@ -172,6 +172,7 @@ const ModalUnassigned = ({ daySelected, totalPlace, assignedCount }) => {
                 placesInUse,
                 handleRemoteEmployee,
                 handleOffEmployee,
+                viewOnly: !editMode
               }}
             />
           </div>

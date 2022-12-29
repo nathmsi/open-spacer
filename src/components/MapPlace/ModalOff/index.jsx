@@ -28,7 +28,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
   });
 
-const ModalOff = ({ daySelected, countUnassigned }) => {
+const ModalOff = ({ daySelected, editMode }) => {
   const [open, setOpen] = useState(false);
   const [offEmployee, setOffEmployee] = useState([]);
 
@@ -90,7 +90,7 @@ const ModalOff = ({ daySelected, countUnassigned }) => {
             alignItems="flex-start"
             key={id}
             secondaryAction={
-              <IconButton
+              editMode && <IconButton
                 edge="end"
                 aria-label="delete"
                 onClick={() => handleRemoveRemoteEmployee({ name, id })}

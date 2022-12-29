@@ -26,7 +26,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
   });
 
-const ModalRemote = ({ daySelected, countUnassigned }) => {
+const ModalRemote = ({ daySelected, editMode }) => {
   const [open, setOpen] = useState(false);
   const [remoteEmployee, setRemoteEmployee] = useState([]);
   const handleClickOpen = () => {
@@ -104,10 +104,10 @@ const ModalRemote = ({ daySelected, countUnassigned }) => {
             alignItems="flex-start"
             key={id}
             secondaryAction={
-              <IconButton
+              editMode && <IconButton
                 edge="end"
                 aria-label="delete"
-                onClick={() => handleRemoveRemoteEmployee({ name, id })}
+                onClick={() =>   handleRemoveRemoteEmployee({ name, id })}
               >
                 <RemoveCircleOutlineOutlinedIcon />
               </IconButton>

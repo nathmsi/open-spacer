@@ -29,7 +29,8 @@ const EmployeeCard = ({
   placesInUse,
   handleRemoteEmployee,
   handleOffEmployee,
-  editMode
+  editMode,
+  viewOnly
 }) => {
   return (
     <div className={styles.container}>
@@ -37,13 +38,13 @@ const EmployeeCard = ({
         <EditEmployee
           key={id}
           employee={{ name, id, section, subSection, techno, ...rest }}
-          editMode={editMode}
+          editMode={editMode && !viewOnly}
         >
           <ListItem
             alignItems="flex-start"
             secondaryAction={
               <div className={styles.actions}>
-                {handleChangePlace && (
+                {handleChangePlace && !viewOnly  && (
                   <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">Place</InputLabel>
                     <Select
@@ -65,7 +66,7 @@ const EmployeeCard = ({
                     </Select>
                   </FormControl>
                 )}
-                {handleRemoteEmployee && (
+                {handleRemoteEmployee && !viewOnly && (
                   <IconButton
                     edge="end"
                     aria-label="delete"
@@ -76,7 +77,7 @@ const EmployeeCard = ({
                     <HomeOutlinedIcon />
                   </IconButton>
                 )}
-                {handleOffEmployee && (
+                {handleOffEmployee && !viewOnly  && (
                    <IconButton
                    edge="end"
                    aria-label="delete"

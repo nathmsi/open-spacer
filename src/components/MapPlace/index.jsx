@@ -27,8 +27,8 @@ const MapPlace = ({
   const [isOpenModalSelectUser, setIsOpenModalSelectUser] = useState(false);
 
   const router = useRouter()
-  let { editMode } = router?.query;
-  editMode = editMode === 'true' 
+  let { editModeOpenSpacer } = router?.query;
+  editModeOpenSpacer = editModeOpenSpacer === 'true' 
   const onCloseModalSelectUser = () => {
     setIsOpenModalSelectUser(false);
   };
@@ -49,7 +49,6 @@ const MapPlace = ({
           />
           Assigned
         </span> */}
-        {editMode? <>
         <span className={styles.contentSpan}>
           <Avatar
             {...stringAvatar(
@@ -62,16 +61,18 @@ const MapPlace = ({
           daySelected={daySelected}
           totalPlace={places?.length}
           assignedCount={assignedPlace?.length}
+          editMode={editModeOpenSpacer}
         />
         <ModalRemote
           daySelected={daySelected}
           countUnassigned={places?.length - assignedPlace?.length}
+          editMode={editModeOpenSpacer}
         />
         <ModalOff
           daySelected={daySelected}
           countUnassigned={places?.length - assignedPlace?.length}
+          editMode={editModeOpenSpacer}
         />
-        </> : null}
       </div>
       <div className={styles.container}>
         {places?.map(({ numberPlace, section, subSection }, index) => {
@@ -106,7 +107,7 @@ const MapPlace = ({
                           : "",
                     }}
                     onClick={() => {
-                      if (editMode) {
+                      if (editModeOpenSpacer) {
                         employeeAssigned && handleRemovePlaceEmployee
                           ? handleRemovePlaceEmployee(employeeAssigned)
                           : handleOpenUnassignedModalUser(numberPlace)
