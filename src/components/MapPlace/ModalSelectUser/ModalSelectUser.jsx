@@ -15,6 +15,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import AddIcon from "@mui/icons-material/Add";
 import Typography from "@mui/material/Typography";
 import { blue } from "@mui/material/colors";
+import { getColorPlace } from "../../../utils/colors";
 
 const ModalSelectUser = ({ placeNumber, daySelected, open, onClose }) => {
 
@@ -68,11 +69,9 @@ const ModalSelectUser = ({ placeNumber, daySelected, open, onClose }) => {
                 key={employee?.id}
               >
                 <ListItemAvatar>
-                  <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
-                    <PersonIcon />
-                  </Avatar>
+                  <Avatar {...getColorPlace({name: employee?.name,section: employee?.section,subSection: employee?.subSection})} />
                 </ListItemAvatar>
-                <ListItemText primary={employee?.name} />
+                <ListItemText primary={employee?.name} secondary={`${employee.section}/${employee.subSection}`} />
               </ListItemButton>
             </ListItem>
           ))}

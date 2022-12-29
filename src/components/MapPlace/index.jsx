@@ -15,17 +15,20 @@ import ModalRemote from "./ModalRemote";
 import ModalOff from "./ModalOff";
 
 import PlaceEdit from "./PlaceEdit";
+import { useRouter } from "next/router";
 
 const MapPlace = ({
   places,
   assignedPlace,
   handleRemovePlaceEmployee,
-  editMode,
   daySelected,
 }) => {
   const [placeSelectUsers, setPlaceSelectUsers] = useState(null);
   const [isOpenModalSelectUser, setIsOpenModalSelectUser] = useState(false);
 
+  const router = useRouter()
+  let { editMode } = router?.query;
+  editMode = editMode === 'true' 
   const onCloseModalSelectUser = () => {
     setIsOpenModalSelectUser(false);
   };
@@ -46,6 +49,7 @@ const MapPlace = ({
           />
           Assigned
         </span> */}
+        {editMode? <>
         <span className={styles.contentSpan}>
           <Avatar
             {...stringAvatar(
@@ -67,6 +71,7 @@ const MapPlace = ({
           daySelected={daySelected}
           countUnassigned={places?.length - assignedPlace?.length}
         />
+        </> : null}
       </div>
       <div className={styles.container}>
         {places?.map(({ numberPlace, section, subSection }, index) => {
@@ -90,7 +95,7 @@ const MapPlace = ({
             >
               <PlaceEdit
                 place={{ numberPlace, section, subSection }}
-                editMode={editMode}
+                editMode={false}
               >
                 <ListItem alignItems="flex-start">
                   <ListItemAvatar
@@ -100,10 +105,15 @@ const MapPlace = ({
                           ? "pointer"
                           : "",
                     }}
-                    onClick={() =>
-                      employeeAssigned && handleRemovePlaceEmployee
-                        ? handleRemovePlaceEmployee(employeeAssigned)
-                        : handleOpenUnassignedModalUser(numberPlace)
+                    onClick={() => {
+                      if (editMode) {
+                        employeeAssigned && handleRemovePlaceEmployee
+                          ? handleRemovePlaceEmployee(employeeAssigned)
+                          : handleOpenUnassignedModalUser(numberPlace)
+                      } else { 
+                        return null
+                      }
+                      }
                     }
                   >
                     <Avatar {...colorPlace} />

@@ -6,7 +6,7 @@ import EditPage from '../src/components/EditPage';
 const Home: NextPage = () => {
   return (
     <div className={styles.container}>
-        <EditPage />
+        <EditPage  />
     </div>
   )
 }
