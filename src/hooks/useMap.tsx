@@ -2,36 +2,51 @@ import { gql, useQuery } from '@apollo/client'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { getMappingPlacesAssigned } from '../utils/mapping/placesAssigned.mapping'
-
+export const day = [
+  { name: 'Sunday', indexDay: 1 },
+  { name: 'Monday', indexDay: 2 },
+  { name: 'Tuesday', indexDay: 3 },
+  { name: 'Wednesday', indexDay: 4 },
+  { name: 'Thursday', indexDay: 5 },
+]
 const useMap = () => {
-  const { data } = useQuery(gql`
-    query MyQuery {
-      places_assigned {
-        id
-        updated_at
-        userId
-        created_at
-        index_place
-        maison {
-          name
+  const [activeDay, setActiveDay] = useState(day[0])
+
+  const { data, loading } = useQuery(
+    gql`
+      query MyQuery($indexDay: numeric!) {
+        places_assigned(where: { indexDay: { _eq: $indexDay } }) {
           id
-        }
-        user {
-          id
-          maison_id
-          email
           updated_at
+          userId
           created_at
-          fullName
+          index_place
           maison {
             name
-            updated_at
             id
+          }
+          user {
+            id
+            maison_id
+            email
+            updated_at
+            created_at
+            fullName
+            maison {
+              name
+              updated_at
+              id
+            }
           }
         }
       }
+    `,
+    {
+      variables: {
+        indexDay: activeDay?.indexDay || 1,
+      },
     }
-  `)
+  )
   const [placesAssigned, setPlaceAssigned] = useState([])
 
   useEffect(() => {
@@ -41,8 +56,15 @@ const useMap = () => {
     }
   }, [data])
 
+  const handleSelectDay = (day) => {
+    setActiveDay(day)
+  }
+
   return {
     placesAssigned,
+    handleSelectDay,
+    activeDay,
+    loading,
   }
 }
 

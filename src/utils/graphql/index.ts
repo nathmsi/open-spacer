@@ -7,7 +7,7 @@ import {
 import { setContext } from '@apollo/client/link/context'
 
 const httpLink = new HttpLink({
-  uri: `${process.env.NEXT_PUBLIC_BASE_URL_HASURA}/v1/graphql`,
+  uri: `${'https://open-spacer.hasura.app'}/v1/graphql`,
 })
 
 const authLink = setContext((_, { headers }) => {
