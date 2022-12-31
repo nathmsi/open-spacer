@@ -14,7 +14,12 @@ const Map = () => {
       <DaySelector active={activeDay} handleSelectDay={handleSelectDay} />
       <Container>
         {mapSpace.map((card) => (
-          <Card key={card} index={card + 1} place={placesAssigned[card + 1]} />
+          <Card
+            key={card}
+            index={card + 1}
+            place={placesAssigned[card + 1]}
+            indexDay={activeDay?.indexDay}
+          />
         ))}
       </Container>
       <Backdrop open={loading} />
