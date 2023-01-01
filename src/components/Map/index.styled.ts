@@ -16,5 +16,6 @@ export const Container = styled.div(
     grid-template-columns: repeat(10,1fr);
     height: 100vh;
     width: 100%;
+    gap: 0.2rem;
     `
 )

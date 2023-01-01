@@ -1,9 +1,10 @@
-import { Container } from './DaySelector.style'
+import { Container, ContainerMaisonSelector } from './DaySelector.style'
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import { day } from '../../../hooks/useMap'
+import MaisonSelector from './MaisonSelector/MaisonSelector'
 
-const DaySelector = ({ active, handleSelectDay }) => {
+const DaySelector = ({ active, handleSelectDay, handleChangMaison }) => {
   return (
     <Container>
       <ButtonGroup sx={{ margin: '1rem 0' }}>
@@ -20,6 +21,9 @@ const DaySelector = ({ active, handleSelectDay }) => {
           </Button>
         ))}
       </ButtonGroup>
+      <ContainerMaisonSelector>
+        <MaisonSelector handleChangMaison={handleChangMaison} />
+      </ContainerMaisonSelector>
     </Container>
   )
 }

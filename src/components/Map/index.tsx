@@ -7,11 +7,21 @@ import { Container, MainContainer } from './index.styled'
 const mapSpace = Array.from({ length: 200 }, (v, i) => i)
 
 const Map = () => {
-  const { placesAssigned, handleSelectDay, activeDay, loading } = useMap()
+  const {
+    placesAssigned,
+    handleSelectDay,
+    handleChangMaison,
+    activeDay,
+    loading,
+  } = useMap()
 
   return (
     <MainContainer>
-      <DaySelector active={activeDay} handleSelectDay={handleSelectDay} />
+      <DaySelector
+        active={activeDay}
+        handleSelectDay={handleSelectDay}
+        handleChangMaison={handleChangMaison}
+      />
       <Container>
         {mapSpace.map((card) => (
           <Card

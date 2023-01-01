@@ -2,19 +2,22 @@ import styled from 'styled-components'
 
 export const Container = styled.div(
   ({ assigned, haveMaison }) => `
-        border: 1px black solid;
+        border: 1px #1976d2 solid;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        border-radius: 0.5rem;
         &:hover {
-            background-color: green;
+            background-color: #1976d2;
             cursor: pointer;
         }
         ${
           assigned
             ? `
-            background-color: green; 
+            span {
+              font-size: 0.8rem;
+            }
         `
             : ''
         }
@@ -62,3 +65,12 @@ export const FullName = styled.div(
 //     "maisonId": "1e821e43-53b0-42f6-b414-076e8cc1ec5d",
 //    "index_place": el
 // }))
+
+export const ContainerBlank = styled.div(
+  () => `
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  `
+)

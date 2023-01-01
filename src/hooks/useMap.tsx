@@ -2,6 +2,7 @@ import { gql, useQuery } from '@apollo/client'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { getMappingPlacesAssigned } from '../utils/mapping/placesAssigned.mapping'
+import { MaisonsList } from '../components/Map/DaySelector/MaisonSelector/MaisonSelector'
 export const day = [
   { name: 'Sunday', indexDay: 1 },
   { name: 'Monday', indexDay: 2 },
@@ -11,11 +12,15 @@ export const day = [
 ]
 const useMap = () => {
   const [activeDay, setActiveDay] = useState(day[0])
-
+  const [activeSelectedMaisons, setActiveSelectedMaison] = useState(
+    MaisonsList[0].id
+  )
   const { data, loading } = useQuery(
     gql`
-      query MyQuery($indexDay: numeric!) {
-        places_assigned(where: { indexDay: { _eq: $indexDay } }) {
+      query MyQuery($indexDay: numeric!, $maisonsId: [uuid!]!) {
+        places_assigned(
+          where: { indexDay: { _eq: $indexDay }, maisonId: { _in: $maisonsId } }
+        ) {
           id
           updated_at
           userId
@@ -44,6 +49,7 @@ const useMap = () => {
     {
       variables: {
         indexDay: activeDay?.indexDay || 1,
+        maisonsId: activeSelectedMaisons,
       },
     }
   )
@@ -60,9 +66,15 @@ const useMap = () => {
     setActiveDay(day)
   }
 
+  const handleChangMaison = (value) => {
+    console.log({ value })
+    setActiveSelectedMaison(value.map((el) => el.id))
+  }
+
   return {
     placesAssigned,
     handleSelectDay,
+    handleChangMaison,
     activeDay,
     loading,
   }
