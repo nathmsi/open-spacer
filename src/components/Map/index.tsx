@@ -11,6 +11,7 @@ const Map = () => {
     placesAssigned,
     handleSelectDay,
     handleChangMaison,
+    handleRemoveUserAssigned,
     activeDay,
     loading,
   } = useMap()
@@ -29,6 +30,7 @@ const Map = () => {
             index={card + 1}
             place={placesAssigned[card + 1]}
             indexDay={activeDay?.indexDay}
+            handleRemoveUserAssigned={handleRemoveUserAssigned}
           />
         ))}
       </Container>

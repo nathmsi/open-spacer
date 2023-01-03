@@ -7,14 +7,16 @@ export const Container = styled.div(
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #ebebeb;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 15px 50px -12px;
     `
 )
 
 export const ContainerMaisonSelector = styled.div(
   () => `
       position: absolute;
-      right: 0;
-      top: 10px;
+      right: 1rem;
+      top: 1rem;
     `
 )

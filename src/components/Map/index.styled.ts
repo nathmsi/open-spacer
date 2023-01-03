@@ -4,18 +4,20 @@ export const MainContainer = styled.div(
   () => `
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 80vh;
     align-items: center;
-    gap: 1rem;
+    gap: 1.2rem;
     `
 )
 
 export const Container = styled.div(
   () => `
     display: grid;
-    grid-template-columns: repeat(10,1fr);
-    height: 100vh;
+    grid-template-columns: repeat(10,auto);
+    min-height: 80vh;
     width: 100%;
-    gap: 0.2rem;
+    align-content: flex-start;
+    padding: 1rem;
+    justify-content: center;
     `
 )

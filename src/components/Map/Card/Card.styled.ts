@@ -1,50 +1,36 @@
 import styled from 'styled-components'
 
 export const Container = styled.div(
-  ({ assigned, haveMaison }) => `
-        border: 1px #1976d2 solid;
+  ({ assigned, haveMaison, isEvenRow }) => `
+        ${
+          isEvenRow
+            ? `border-bottom: 2px #1976d2 solid;`
+            : `border-top: 2px #1976d2 solid;`
+        }
+        border: 2px #1976d2 solid;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
         border-radius: 0.5rem;
+        margin: 0.4rem;
+        min-width: 12rem;
+        cursor: pointer;
         &:hover {
-            background-color: #1976d2;
-            cursor: pointer;
+          background: #ebebeb;
         }
-        ${
-          assigned
-            ? `
-            span {
-              font-size: 0.8rem;
-            }
-        `
-            : ''
+        span {
+          font-size: 0.8rem;
         }
         ${
           haveMaison
             ? `
-            border-color: black;
         `
             : `
             border-color: white;
             `
         }
     `
-)
-export const ContainerAssigned = styled.div(
-  () => `
-            border: 1px black solid;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            background: gray;
-            &:hover {
-                background-color: red;
-                cursor: pointer;
-            }
-      `
 )
 
 export const NumberPlace = styled.div(
@@ -72,5 +58,6 @@ export const ContainerBlank = styled.div(
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    height: 0rem;
   `
 )

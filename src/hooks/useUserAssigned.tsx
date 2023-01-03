@@ -1,23 +1,37 @@
-import { gql, useQuery } from '@apollo/client'
+import { gql, useSubscription } from '@apollo/client'
 import { client } from '../utils/graphql'
 import { useState } from 'react'
 
 const useUserAssigned = ({ place, indexDay }) => {
   const { index_place, maison } = place || {}
   const [loading, setLoading] = useState(false)
-  const { data: userData, loading: loadingUser } = useQuery(
+  const { data: userData, loading: loadingUser } = useSubscription(
     gql`
-      query MyQuery($maisonId: uuid!) {
-        users(where: { maison_id: { _eq: $maisonId } }) {
+      subscription MyQuery($maisonId: uuid!, $indexDay: numeric!) {
+        users(
+          where: {
+            maison_id: { _eq: $maisonId }
+            places_assigneds_aggregate: {
+              count: {
+                predicate: { _eq: 0 }
+                filter: { indexDay: { _eq: $indexDay } }
+              }
+            }
+          }
+        ) {
           fullName
           email
           id
+          role {
+            name
+          }
         }
       }
     `,
     {
       variables: {
         maisonId: maison?.id,
+        indexDay,
       },
     }
   )
@@ -42,7 +56,7 @@ const useUserAssigned = ({ place, indexDay }) => {
       variables: {
         dataToSend: [
           {
-            indexDay: 1,
+            indexDay,
             index_place,
             userId: userId,
           },

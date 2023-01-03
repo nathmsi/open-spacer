@@ -5,9 +5,17 @@ import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Avatar from '@mui/material/Avatar'
-import { getColorPlace } from '../../../utils/colors'
+import { getColorPlaceMap } from '../../../utils/colors'
 
-const Card = ({ index, place, indexDay }) => {
+const isEvenRow = (index) => {
+  const number = index.toString()
+  if (!number) return false
+  if (index < 10) return true
+  if (number?.charAt(number.length - 2) % 2 === 0) return true
+  return false
+}
+
+const Card = ({ index, place, indexDay, handleRemoveUserAssigned }) => {
   const [openModalUser, setModalUser] = useState(false)
 
   if (!place) {
@@ -16,10 +24,23 @@ const Card = ({ index, place, indexDay }) => {
   const { user, maison } = place
   if (!user?.fullName) {
     return (
-      <Container onClick={() => setModalUser(true)} haveMaison={maison?.name}>
+      <Container
+        onClick={() => setModalUser(true)}
+        haveMaison={maison?.name}
+        isEvenRow={isEvenRow(index - 1)}
+      >
         <ListItem alignItems="flex-start" sx={{ padding: '0rem 0.6rem' }}>
+          <ListItemAvatar>
+            <Avatar
+              {...getColorPlaceMap({
+                name: index,
+                numberPlace: index,
+                role: user?.role?.name,
+              })}
+            />
+          </ListItemAvatar>
           <ListItemText
-            primary={user?.fullName}
+            primary={index}
             secondary={
               <div style={{ display: 'inline', fontSize: '0.7rem' }}>
                 <div>{maison?.name}</div>
@@ -42,15 +63,19 @@ const Card = ({ index, place, indexDay }) => {
     )
   }
   return (
-    <Container assigned={user?.fullName} haveMaison={maison?.name}>
+    <Container
+      assigned={user?.fullName}
+      haveMaison={maison?.name}
+      isEvenRow={isEvenRow(index - 1)}
+      onClick={() => handleRemoveUserAssigned({ indexPlace: index - 1 })}
+    >
       <ListItem alignItems="flex-start" sx={{ padding: '0rem 0.6rem' }}>
         <ListItemAvatar>
           <Avatar
-            {...getColorPlace({
+            {...getColorPlaceMap({
               name: user?.fullName,
               numberPlace: index,
-              section: 'Dior',
-              subSection: 'manager',
+              role: user?.role?.name,
             })}
           />
         </ListItemAvatar>
@@ -58,21 +83,15 @@ const Card = ({ index, place, indexDay }) => {
           primary={user?.fullName}
           secondary={
             <div style={{ display: 'inline', fontSize: '0.7rem' }}>
-              <div>{maison?.name}</div>
+              <div>
+                {maison?.name}/ {user?.role?.name}
+              </div>
             </div>
           }
         />
       </ListItem>
     </Container>
   )
-  // return (
-  //   <Container assigned={user?.fullName} haveMaison={maison?.name}>
-  //     <NumberPlace>
-  //       ({index}) {maison?.name}
-  //     </NumberPlace>
-  //     {user?.fullName && <FullName>{user?.fullName || ''}</FullName>}
-  //   </Container>
-  // )
 }
 
 export default Card

@@ -3,11 +3,52 @@ import {
   DefaultOptions,
   HttpLink,
   InMemoryCache,
+  split,
 } from '@apollo/client'
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
+import { createClient } from 'graphql-ws'
+import { getMainDefinition } from '@apollo/client/utilities'
 import { setContext } from '@apollo/client/link/context'
+
+const wsLink =
+  typeof window !== 'undefined'
+    ? new GraphQLWsLink(
+        createClient({
+          url: `ws://open-spacer.hasura.app/v1/graphql`,
+          // connectionParams: {
+          //   authToken: user.authToken,
+          // },
+        })
+      )
+    : null
 
 const httpLink = new HttpLink({
   uri: `${'https://open-spacer.hasura.app'}/v1/graphql`,
+})
+
+// The split function takes three parameters:
+//
+// * A function that's called for each operation to execute
+// * The Link to use for an operation if the function returns a "truthy" value
+// * The Link to use for an operation if the function returns a "falsy" value
+const splitLink =
+  typeof window !== 'undefined' && wsLink != null
+    ? split(
+        ({ query }) => {
+          const definition = getMainDefinition(query)
+          return (
+            definition.kind === 'OperationDefinition' &&
+            definition.operation === 'subscription'
+          )
+        },
+        wsLink,
+        httpLink
+      )
+    : httpLink
+
+export const clientWs = new ApolloClient({
+  link: splitLink,
+  cache: new InMemoryCache(),
 })
 
 const authLink = setContext((_, { headers }) => {

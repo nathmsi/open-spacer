@@ -1,8 +1,9 @@
-import { gql, useQuery } from '@apollo/client'
+import { gql, useSubscription } from '@apollo/client'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { getMappingPlacesAssigned } from '../utils/mapping/placesAssigned.mapping'
 import { MaisonsList } from '../components/Map/DaySelector/MaisonSelector/MaisonSelector'
+import { client } from '../utils/graphql'
 export const day = [
   { name: 'Sunday', indexDay: 1 },
   { name: 'Monday', indexDay: 2 },
@@ -11,13 +12,14 @@ export const day = [
   { name: 'Thursday', indexDay: 5 },
 ]
 const useMap = () => {
+  const [loadingApi, setLoading] = useState(false)
   const [activeDay, setActiveDay] = useState(day[0])
   const [activeSelectedMaisons, setActiveSelectedMaison] = useState(
-    MaisonsList[0].id
+    MaisonsList[2].id
   )
-  const { data, loading } = useQuery(
+  const { data, loading } = useSubscription(
     gql`
-      query MyQuery($indexDay: numeric!, $maisonsId: [uuid!]!) {
+      subscription places_assigned($indexDay: numeric!, $maisonsId: [uuid!]!) {
         places_assigned(
           where: { indexDay: { _eq: $indexDay }, maisonId: { _in: $maisonsId } }
         ) {
@@ -41,6 +43,9 @@ const useMap = () => {
               name
               updated_at
               id
+            }
+            role {
+              name
             }
           }
         }
@@ -71,12 +76,42 @@ const useMap = () => {
     setActiveSelectedMaison(value.map((el) => el.id))
   }
 
+  const handleRemoveUserAssigned = ({ indexPlace }) => {
+    setLoading(true)
+    const data = client.query({
+      query: gql`
+        mutation MyMutation($index_place: numeric!, $indexDay: numeric!) {
+          update_places_assigned(
+            where: {
+              index_place: { _eq: $index_place }
+              indexDay: { _eq: $indexDay }
+            }
+            _set: { userId: null }
+          ) {
+            returning {
+              id
+              userId
+              index_place
+              indexDay
+            }
+          }
+        }
+      `,
+      variables: {
+        index_place: indexPlace + 1,
+        indexDay: activeDay?.indexDay || 1,
+      },
+    })
+    setLoading(false)
+  }
+
   return {
     placesAssigned,
     handleSelectDay,
     handleChangMaison,
+    handleRemoveUserAssigned,
     activeDay,
-    loading,
+    loading: loading || loadingApi,
   }
 }
 

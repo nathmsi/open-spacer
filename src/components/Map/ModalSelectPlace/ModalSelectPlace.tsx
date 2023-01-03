@@ -5,7 +5,7 @@ import ListItemText from '@mui/material/ListItemText'
 import DialogTitle from '@mui/material/DialogTitle'
 import Dialog from '@mui/material/Dialog'
 import useUserAssigned from '../../../hooks/useUserAssigned'
-import { getColorPlace } from '../../../utils/colors'
+import { getColorPlaceMap } from '../../../utils/colors'
 import { Avatar, ListItemAvatar } from '@mui/material'
 import Backdrop from '../../commons/backdrop'
 
@@ -14,6 +14,11 @@ const ModalSelectPlace = ({ place, open, handleClose, indexDay }) => {
     place,
     indexDay,
   })
+
+  const handleClick = async (event, id) => {
+    await handleSelectPlace(id)
+    handleClose(event)
+  }
 
   console.log({ open, users })
   if (!open) return null
@@ -24,13 +29,15 @@ const ModalSelectPlace = ({ place, open, handleClose, indexDay }) => {
         {users?.map((user, index) => (
           <ListItem disableGutters key={index}>
             <ListItemButton
-              onClick={() => handleSelectPlace(user?.id)}
+              onClick={(event) => handleClick(event, user?.id)}
               key={user?.id}
             >
               <ListItemAvatar>
                 <Avatar
-                  {...getColorPlace({
+                  {...getColorPlaceMap({
                     name: user?.fullName,
+                    role: user?.role?.name,
+                    numberPlace: '',
                   })}
                 />
               </ListItemAvatar>

@@ -39,7 +39,7 @@ export const MaisonsList = [
 ]
 
 const MaisonSelector = ({ handleChangMaison }) => {
-  const [maisons, setMaisons] = React.useState([MaisonsList[0]?.name])
+  const [maisons, setMaisons] = React.useState([MaisonsList[2]?.name])
 
   const handleChange = (event) => {
     const {
