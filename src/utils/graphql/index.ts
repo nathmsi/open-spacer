@@ -14,7 +14,7 @@ const wsLink =
   typeof window !== 'undefined'
     ? new GraphQLWsLink(
         createClient({
-          url: `ws://open-spacer.hasura.app/v1/graphql`,
+          url: `wss://open-spacer.hasura.app/v1/graphql`,
           // connectionParams: {
           //   authToken: user.authToken,
           // },
