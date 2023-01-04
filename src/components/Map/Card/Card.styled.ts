@@ -22,6 +22,11 @@ export const Container = styled.div(
         span {
           font-size: 0.8rem;
         }
+        .MuiListItemAvatar-root {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+        }
         ${
           haveMaison
             ? `
