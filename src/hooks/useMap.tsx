@@ -11,6 +11,39 @@ export const day = [
   { name: 'Wednesday', indexDay: 4 },
   { name: 'Thursday', indexDay: 5 },
 ]
+
+export const listRole = [
+  {
+    name: 'IOS',
+    created_at: '2023-01-02T11:52:00.151695+00:00',
+    updated_at: '2023-01-02T11:52:00.151695+00:00',
+    id: '1165ab36-baff-46a6-b2e8-e5fbc305be5f',
+  },
+  {
+    name: 'SF',
+    created_at: '2023-01-02T11:52:03.862208+00:00',
+    updated_at: '2023-01-02T11:52:03.862208+00:00',
+    id: 'cfe82f22-21cc-4b9d-a45e-d28f9f20e785',
+  },
+  {
+    name: 'Manager',
+    created_at: '2023-01-02T11:52:10.680007+00:00',
+    updated_at: '2023-01-02T11:52:10.680007+00:00',
+    id: 'b92263d8-6536-45eb-ad79-2b09c9b22957',
+  },
+  {
+    name: 'BACK',
+    created_at: '2023-01-02T11:52:18.380355+00:00',
+    updated_at: '2023-01-02T11:52:18.380355+00:00',
+    id: '5d300f0b-9020-44f1-b0c5-e502f74b9b10',
+  },
+  {
+    name: 'FRONT/BACK',
+    created_at: '2023-01-02T11:52:15.105736+00:00',
+    updated_at: '2023-01-03T19:58:08.465093+00:00',
+    id: 'c13534e3-9fe2-43c2-9ab7-c6418ed5c07e',
+  },
+]
 const useMap = () => {
   const [loadingApi, setLoading] = useState(false)
   const [activeDay, setActiveDay] = useState(day[0])

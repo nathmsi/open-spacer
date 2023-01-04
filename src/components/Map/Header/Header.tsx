@@ -1,9 +1,10 @@
-import { Container, ContainerMaisonSelector } from './Header.style'
+import { Actions, Container, ContainerMaisonSelector } from './Header.style'
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import { day } from '../../../hooks/useMap'
 import MaisonSelector from './MaisonSelector/MaisonSelector'
 import UserNotAssigned from './UserNotAssigned/UserNotAssigned'
+import AddNewUser from './AddNewUser/AddNewUser'
 
 const Header = ({
   active,
@@ -13,7 +14,10 @@ const Header = ({
 }) => {
   return (
     <Container>
-      <UserNotAssigned usersNotAssigned={usersNotAssigned} />
+      <Actions>
+        <UserNotAssigned usersNotAssigned={usersNotAssigned} />
+        <AddNewUser />
+      </Actions>
       <ButtonGroup sx={{ margin: '1rem 0', gap: '0.8rem' }}>
         {day.map((item, index) => (
           <Button

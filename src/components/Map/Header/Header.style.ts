@@ -21,3 +21,14 @@ export const ContainerMaisonSelector = styled.div(
       top: 1rem;
     `
 )
+
+export const Actions = styled.div(
+  () => `
+      position: absolute;
+      left: 1rem;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 1rem;
+    `
+)
