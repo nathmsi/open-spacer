@@ -16,6 +16,7 @@ const Map = () => {
     handleSelectDay,
     handleChangMaison,
     handleRemoveUserAssigned,
+    handleCheckMeetingRoom,
   } = useMap()
 
   return (
@@ -25,6 +26,7 @@ const Map = () => {
         handleSelectDay={handleSelectDay}
         handleChangMaison={handleChangMaison}
         usersNotAssigned={usersNotAssigned}
+        handleCheckMeetingRoom={handleCheckMeetingRoom}
       />
       <Container>
         {mapSpace.map((card) => (

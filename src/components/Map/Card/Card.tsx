@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Container, ContainerBlank } from './Card.styled'
+import { Container, ContainerBlank, ContainerMeetingRoom } from './Card.styled'
 import ModalSelectPlace from '../ModalSelectPlace/ModalSelectPlace'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
@@ -22,7 +22,10 @@ const Card = ({ index, place, indexDay, handleRemoveUserAssigned }) => {
   if (!place) {
     return <ContainerBlank>{''}</ContainerBlank>
   }
-  const { user, maison } = place
+  const { user, maison, meeting_room } = place
+  if (meeting_room?.name) {
+    return <ContainerMeetingRoom>{meeting_room?.name}</ContainerMeetingRoom>
+  }
   if (!user?.fullName) {
     return (
       <Container haveMaison={maison?.name} isEvenRow={isEvenRow(index - 1)}>

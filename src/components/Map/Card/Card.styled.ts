@@ -85,3 +85,16 @@ export const ContainerBlank = styled.div(
     height: 0rem;
   `
 )
+
+export const ContainerMeetingRoom = styled.div(
+  () => `
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+    margin: 0.4rem;
+    min-width: 12rem;
+  `
+)

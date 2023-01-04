@@ -47,20 +47,44 @@ export const listRole = [
 const useMap = () => {
   const [loadingApi, setLoading] = useState(false)
   const [activeDay, setActiveDay] = useState(day[0])
+  const [showMeetingRoom, setShowMeetingRoom] = useState(false)
   const [activeSelectedMaisons, setActiveSelectedMaison] = useState(
     MaisonsList[2].id
   )
-  const { data, loading } = useSubscription(
+  const {
+    data,
+    loading,
+    error: errorMessage,
+  } = useSubscription(
     gql`
-      subscription places_assigned($indexDay: numeric!, $maisonsId: [uuid!]!) {
+      subscription places_assigned(
+        $indexDay: numeric!
+        $maisonsId: [uuid!]!
+        $showMeetingRoom: Boolean!
+      ) {
         places_assigned(
-          where: { indexDay: { _eq: $indexDay }, maisonId: { _in: $maisonsId } }
+          where: {
+            indexDay: { _eq: $indexDay }
+            _or: [
+              { maisonId: { _in: $maisonsId } }
+              {
+                _and: [
+                  { meetingRoomId: { _is_null: $showMeetingRoom } }
+                  { maisonId: { _is_null: true } }
+                ]
+              }
+            ]
+          }
         ) {
           id
           updated_at
           userId
           created_at
           index_place
+          meeting_room {
+            id
+            name
+          }
           maison {
             name
             id
@@ -88,9 +112,13 @@ const useMap = () => {
       variables: {
         indexDay: activeDay?.indexDay || 1,
         maisonsId: activeSelectedMaisons,
+        showMeetingRoom: !showMeetingRoom,
       },
     }
   )
+
+  console.log(errorMessage, data)
+
   const {
     data: usersNotAssigned,
     loading: loadingUser,
@@ -172,6 +200,10 @@ const useMap = () => {
     setLoading(false)
   }
 
+  const handleCheckMeetingRoom = (event) => {
+    setShowMeetingRoom(event.target.checked)
+  }
+
   return {
     placesAssigned,
     usersNotAssigned: usersNotAssigned?.users,
@@ -181,6 +213,7 @@ const useMap = () => {
     handleSelectDay,
     handleChangMaison,
     handleRemoveUserAssigned,
+    handleCheckMeetingRoom,
   }
 }
 

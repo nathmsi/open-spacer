@@ -5,18 +5,25 @@ import { day } from '../../../hooks/useMap'
 import MaisonSelector from './MaisonSelector/MaisonSelector'
 import UserNotAssigned from './UserNotAssigned/UserNotAssigned'
 import AddNewUser from './AddNewUser/AddNewUser'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Checkbox from '@mui/material/Checkbox'
 
 const Header = ({
   active,
   usersNotAssigned,
   handleSelectDay,
   handleChangMaison,
+  handleCheckMeetingRoom,
 }) => {
   return (
     <Container>
       <Actions>
         <UserNotAssigned usersNotAssigned={usersNotAssigned} />
         <AddNewUser />
+        <FormControlLabel
+          control={<Checkbox onChange={handleCheckMeetingRoom} />}
+          label="Meeting Room"
+        />
       </Actions>
       <ButtonGroup sx={{ margin: '1rem 0', gap: '0.8rem' }}>
         {day.map((item, index) => (
