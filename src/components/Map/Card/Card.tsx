@@ -6,6 +6,8 @@ import ListItemText from '@mui/material/ListItemText'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Avatar from '@mui/material/Avatar'
 import { getColorPlaceMap } from '../../../utils/colors'
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 
 const isEvenRow = (index) => {
   const number = index.toString()
@@ -24,12 +26,8 @@ const Card = ({ index, place, indexDay, handleRemoveUserAssigned }) => {
   const { user, maison } = place
   if (!user?.fullName) {
     return (
-      <Container
-        onClick={() => setModalUser(true)}
-        haveMaison={maison?.name}
-        isEvenRow={isEvenRow(index - 1)}
-      >
-        <ListItem alignItems="flex-start" sx={{ padding: '0rem 0.6rem' }}>
+      <Container haveMaison={maison?.name} isEvenRow={isEvenRow(index - 1)}>
+        <ListItem alignItems="flex-start" sx={{ padding: '0.4rem' }}>
           <ListItemAvatar>
             <Avatar
               {...getColorPlaceMap({
@@ -59,6 +57,9 @@ const Card = ({ index, place, indexDay, handleRemoveUserAssigned }) => {
             indexDay={indexDay}
           />
         )}
+        <div className="icon-action" onClick={() => setModalUser(true)}>
+          <AddCircleOutlineOutlinedIcon />
+        </div>
       </Container>
     )
   }
@@ -67,9 +68,8 @@ const Card = ({ index, place, indexDay, handleRemoveUserAssigned }) => {
       assigned={user?.fullName}
       haveMaison={maison?.name}
       isEvenRow={isEvenRow(index - 1)}
-      onClick={() => handleRemoveUserAssigned({ indexPlace: index - 1 })}
     >
-      <ListItem alignItems="flex-start" sx={{ padding: '0rem 0.6rem' }}>
+      <ListItem alignItems="flex-start" sx={{ padding: '0.4rem' }}>
         <ListItemAvatar>
           <Avatar
             {...getColorPlaceMap({
@@ -90,6 +90,12 @@ const Card = ({ index, place, indexDay, handleRemoveUserAssigned }) => {
           }
         />
       </ListItem>
+      <div
+        className="icon-action"
+        onClick={() => handleRemoveUserAssigned({ indexPlace: index - 1 })}
+      >
+        <DeleteOutlinedIcon />
+      </div>
     </Container>
   )
 }

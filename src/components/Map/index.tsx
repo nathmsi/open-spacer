@@ -1,7 +1,7 @@
 import useMap from '../../hooks/useMap'
 import Backdrop from '../commons/backdrop'
 import Card from './Card/Card'
-import DaySelector from './DaySelector/DaySelector'
+import Header from './Header/Header'
 import { Container, MainContainer } from './index.styled'
 
 const mapSpace = Array.from({ length: 200 }, (v, i) => i)
@@ -18,7 +18,7 @@ const Map = () => {
 
   return (
     <MainContainer>
-      <DaySelector
+      <Header
         active={activeDay}
         handleSelectDay={handleSelectDay}
         handleChangMaison={handleChangMaison}

@@ -2,7 +2,7 @@ import { gql, useSubscription } from '@apollo/client'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { getMappingPlacesAssigned } from '../utils/mapping/placesAssigned.mapping'
-import { MaisonsList } from '../components/Map/DaySelector/MaisonSelector/MaisonSelector'
+import { MaisonsList } from '../components/Map/Header/MaisonSelector/MaisonSelector'
 import { client } from '../utils/graphql'
 export const day = [
   { name: 'Sunday', indexDay: 1 },

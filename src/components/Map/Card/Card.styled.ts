@@ -2,12 +2,7 @@ import styled from 'styled-components'
 
 export const Container = styled.div(
   ({ assigned, haveMaison, isEvenRow }) => `
-        ${
-          isEvenRow
-            ? `border-bottom: 2px #1976d2 solid;`
-            : `border-top: 2px #1976d2 solid;`
-        }
-        border: 2px #1976d2 solid;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -16,9 +11,7 @@ export const Container = styled.div(
         margin: 0.4rem;
         min-width: 12rem;
         cursor: pointer;
-        &:hover {
-          background: #ebebeb;
-        }
+        position: relative;
         span {
           font-size: 0.8rem;
         }
@@ -34,6 +27,22 @@ export const Container = styled.div(
             : `
             border-color: white;
             `
+        }
+        .icon-action {
+          display: none;
+        }
+        &:hover {
+          background: #ebebeb;
+          opacity: 0.5;
+          .icon-action {
+            opacity: 1;
+            position: absolute;
+            left: 5px;
+            display: block; 
+            background-color: white;
+            border-radius: 50%; 
+            padding: 0.6rem;
+          }
         }
     `
 )
