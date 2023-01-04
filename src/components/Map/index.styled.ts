@@ -4,9 +4,9 @@ export const MainContainer = styled.div(
   () => `
     display: flex;
     flex-direction: column;
-    min-height: 80vh;
+    min-height: 100vh;
     align-items: center;
-    gap: 1.2rem;
+    background-color:#ebebeb;
     `
 )
 
@@ -20,5 +20,7 @@ export const Container = styled.div(
     padding: 1rem;
     justify-content: center;
     padding-top: 8rem;
+    background-color:#ebebeb;
+
     `
 )

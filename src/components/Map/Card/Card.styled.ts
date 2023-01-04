@@ -9,7 +9,6 @@ export const Container = styled.div(
         flex-direction: column;
         border-radius: 0.5rem;
         margin: 0.4rem;
-        min-width: 12rem;
         cursor: pointer;
         position: relative;
         span {
@@ -20,12 +19,15 @@ export const Container = styled.div(
           align-items: center;
           justify-content: flex-start;
         }
+       
         ${
           !assigned
             ? `
           opacity: 0.3;
         `
-            : ``
+            : `
+            background-color: white;
+            `
         }
         ${
           haveMaison
@@ -51,9 +53,26 @@ export const Container = styled.div(
             background-color: white;
             border-radius: 50%; 
             padding: 0.6rem;
+            @media only screen and (max-width: 1400px) {
+              left: inherit;
+            }
           }
         }
-
+        min-width: 12rem;
+        @media only screen and (max-width: 1400px) {
+          .MuiListItem-root {
+            flex-direction: column;
+            align-items:center;
+          }
+          .MuiTypography-root {
+            text-align: center;
+          }
+          .MuiListItemAvatar-root {
+            justify-content: center;
+          }
+          min-width: 4rem;
+          max-width: 5rem;
+        }
     `
 )
 
@@ -93,8 +112,11 @@ export const ContainerMeetingRoom = styled.div(
     align-items: center;
     flex-direction: column;
     padding: 1rem;
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
-    margin: 0.4rem;
+    // box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 8px;
+    background-color: white;
     min-width: 12rem;
+    @media only screen and (max-width: 1400px) {
+      min-width: 4rem;
+    }
   `
 )

@@ -24,7 +24,7 @@ const Card = ({ index, place, indexDay, handleRemoveUserAssigned }) => {
   }
   const { user, maison, meeting_room } = place
   if (meeting_room?.name) {
-    return <ContainerMeetingRoom>{meeting_room?.name}</ContainerMeetingRoom>
+    return <ContainerMeetingRoom>{''}</ContainerMeetingRoom>
   }
   if (!user?.fullName) {
     return (
