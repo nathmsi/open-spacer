@@ -7,8 +7,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Avatar from '@mui/material/Avatar'
 import { getColorPlaceMap } from '../../../utils/colors'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
-import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
-
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 const isEvenRow = (index) => {
   const number = index.toString()
   if (!number) return false
@@ -58,7 +57,7 @@ const Card = ({ index, place, indexDay, handleRemoveUserAssigned }) => {
           />
         )}
         <div className="icon-action" onClick={() => setModalUser(true)}>
-          <AddCircleOutlineOutlinedIcon />
+          <AddOutlinedIcon />
         </div>
       </Container>
     )

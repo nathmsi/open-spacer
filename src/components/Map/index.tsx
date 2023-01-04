@@ -9,11 +9,13 @@ const mapSpace = Array.from({ length: 200 }, (v, i) => i)
 const Map = () => {
   const {
     placesAssigned,
+    usersNotAssigned,
+    activeDay,
+    loading,
+
     handleSelectDay,
     handleChangMaison,
     handleRemoveUserAssigned,
-    activeDay,
-    loading,
   } = useMap()
 
   return (
@@ -22,6 +24,7 @@ const Map = () => {
         active={activeDay}
         handleSelectDay={handleSelectDay}
         handleChangMaison={handleChangMaison}
+        usersNotAssigned={usersNotAssigned}
       />
       <Container>
         {mapSpace.map((card) => (

@@ -21,6 +21,13 @@ export const Container = styled.div(
           justify-content: flex-start;
         }
         ${
+          !assigned
+            ? `
+          opacity: 0.3;
+        `
+            : ``
+        }
+        ${
           haveMaison
             ? `
         `
@@ -30,20 +37,23 @@ export const Container = styled.div(
         }
         .icon-action {
           display: none;
+          align-items: center;
+          justify-content: center;
         }
         &:hover {
           background: #ebebeb;
-          opacity: 0.5;
+          opacity: 0.8;
           .icon-action {
             opacity: 1;
             position: absolute;
             left: 5px;
-            display: block; 
+            display: flex; 
             background-color: white;
             border-radius: 50%; 
             padding: 0.6rem;
           }
         }
+
     `
 )
 

@@ -58,6 +58,40 @@ const useMap = () => {
       },
     }
   )
+  const {
+    data: usersNotAssigned,
+    loading: loadingUser,
+    error,
+  } = useSubscription(
+    gql`
+      subscription places_assigned($indexDay: numeric!, $maisonsId: [uuid!]!) {
+        users(
+          where: {
+            maison_id: { _in: $maisonsId }
+            places_assigneds_aggregate: {
+              count: {
+                predicate: { _eq: 0 }
+                filter: { indexDay: { _eq: $indexDay } }
+              }
+            }
+          }
+        ) {
+          fullName
+          email
+          id
+          role {
+            name
+          }
+        }
+      }
+    `,
+    {
+      variables: {
+        indexDay: activeDay?.indexDay || 1,
+        maisonsId: activeSelectedMaisons,
+      },
+    }
+  )
   const [placesAssigned, setPlaceAssigned] = useState([])
 
   useEffect(() => {
@@ -107,11 +141,13 @@ const useMap = () => {
 
   return {
     placesAssigned,
+    usersNotAssigned: usersNotAssigned?.users,
+    activeDay,
+    loading: loading || loadingApi,
+
     handleSelectDay,
     handleChangMaison,
     handleRemoveUserAssigned,
-    activeDay,
-    loading: loading || loadingApi,
   }
 }
 

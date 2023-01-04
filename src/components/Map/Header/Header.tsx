@@ -3,10 +3,17 @@ import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import { day } from '../../../hooks/useMap'
 import MaisonSelector from './MaisonSelector/MaisonSelector'
+import UserNotAssigned from './UserNotAssigned/UserNotAssigned'
 
-const Header = ({ active, handleSelectDay, handleChangMaison }) => {
+const Header = ({
+  active,
+  usersNotAssigned,
+  handleSelectDay,
+  handleChangMaison,
+}) => {
   return (
     <Container>
+      <UserNotAssigned usersNotAssigned={usersNotAssigned} />
       <ButtonGroup sx={{ margin: '1rem 0', gap: '0.8rem' }}>
         {day.map((item, index) => (
           <Button
