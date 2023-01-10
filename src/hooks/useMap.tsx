@@ -1,7 +1,7 @@
 import { gql, useSubscription } from '@apollo/client'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { getMappingPlacesAssigned } from '../utils/mapping/placesAssigned.mapping'
+import { getMappingPlacesAssignedByCoordinate } from '../utils/mapping/placesAssigned.mapping'
 import { MaisonsList } from '../components/Map/Header/MaisonSelector/MaisonSelector'
 import { client } from '../utils/graphql'
 export const day = [
@@ -44,12 +44,21 @@ export const listRole = [
     id: 'c13534e3-9fe2-43c2-9ab7-c6418ed5c07e',
   },
 ]
-const useMap = () => {
+
+export function getDayNumber() {
+  var d = new Date()
+  var dayNumber = d.getDay() + 1
+  return dayNumber
+}
+
+const useMap = ({ allMaison = false }) => {
   const [loadingApi, setLoading] = useState(false)
-  const [activeDay, setActiveDay] = useState(day[0])
+  const [activeDay, setActiveDay] = useState(
+    day[allMaison ? 0 : getDayNumber() - 1] || day[0]
+  )
   const [showMeetingRoom, setShowMeetingRoom] = useState(false)
   const [activeSelectedMaisons, setActiveSelectedMaison] = useState(
-    MaisonsList[2].id
+    MaisonsList[1].id
   )
   const {
     data,
@@ -80,7 +89,10 @@ const useMap = () => {
           updated_at
           userId
           created_at
+          indexDay
           index_place
+          x_coordinate
+          y_coordinate
           meeting_room {
             id
             name
@@ -111,13 +123,15 @@ const useMap = () => {
     {
       variables: {
         indexDay: activeDay?.indexDay || 1,
-        maisonsId: activeSelectedMaisons,
-        showMeetingRoom: !showMeetingRoom,
+        maisonsId: allMaison
+          ? MaisonsList?.map((el) => el.id)
+          : activeSelectedMaisons,
+        showMeetingRoom: allMaison ? false : !showMeetingRoom,
       },
     }
   )
 
-  console.log(errorMessage, data)
+  // console.log(errorMessage, data)
 
   const {
     data: usersNotAssigned,
@@ -158,7 +172,7 @@ const useMap = () => {
   useEffect(() => {
     if (data?.places_assigned) {
       const places = data?.places_assigned
-      setPlaceAssigned(getMappingPlacesAssigned(places))
+      setPlaceAssigned(getMappingPlacesAssignedByCoordinate(places))
     }
   }, [data])
 
@@ -171,14 +185,19 @@ const useMap = () => {
     setActiveSelectedMaison(value.map((el) => el.id))
   }
 
-  const handleRemoveUserAssigned = ({ indexPlace }) => {
+  const handleRemoveUserAssigned = ({ index_x, index_y }) => {
     setLoading(true)
     const data = client.query({
       query: gql`
-        mutation MyMutation($index_place: numeric!, $indexDay: numeric!) {
+        mutation MyMutation(
+          $x_coordinate: numeric!
+          $y_coordinate: numeric!
+          $indexDay: numeric!
+        ) {
           update_places_assigned(
             where: {
-              index_place: { _eq: $index_place }
+              x_coordinate: { _eq: $x_coordinate }
+              y_coordinate: { _eq: $y_coordinate }
               indexDay: { _eq: $indexDay }
             }
             _set: { userId: null }
@@ -186,14 +205,14 @@ const useMap = () => {
             returning {
               id
               userId
-              index_place
               indexDay
             }
           }
         }
       `,
       variables: {
-        index_place: indexPlace + 1,
+        x_coordinate: index_x,
+        y_coordinate: index_y,
         indexDay: activeDay?.indexDay || 1,
       },
     })

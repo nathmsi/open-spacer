@@ -1,21 +1,19 @@
-import { useState } from "react";
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import ListItemText from "@mui/material/ListItemText";
+import { useState } from 'react'
+import ListItem from '@mui/material/ListItem'
+import ListItemAvatar from '@mui/material/ListItemAvatar'
+import Avatar from '@mui/material/Avatar'
+import ListItemText from '@mui/material/ListItemText'
 
-import styles from "./index.module.scss";
-import ModalSelectUser from "./ModalSelectUser/ModalSelectUser";
+import styles from './index.module.scss'
+import ModalSelectUser from './ModalSelectUser/ModalSelectUser'
 
-import { db } from "../../utils/firebase";
+import { getColorPlace, stringAvatar } from '../../utils/colors'
+import ModalUnassigned from './ModalUnassigned'
+import ModalRemote from './ModalRemote'
+import ModalOff from './ModalOff'
 
-import { getColorPlace, stringAvatar } from "../../utils/colors";
-import ModalUnassigned from "./ModalUnassigned";
-import ModalRemote from "./ModalRemote";
-import ModalOff from "./ModalOff";
-
-import PlaceEdit from "./PlaceEdit";
-import { useRouter } from "next/router";
+import PlaceEdit from './PlaceEdit'
+import { useRouter } from 'next/router'
 
 const MapPlace = ({
   places,
@@ -23,15 +21,17 @@ const MapPlace = ({
   handleRemovePlaceEmployee,
   daySelected,
 }) => {
-  const [placeSelectUsers, setPlaceSelectUsers] = useState(null);
-  const [isOpenModalSelectUser, setIsOpenModalSelectUser] = useState(false);
+  const [placeSelectUsers, setPlaceSelectUsers] = useState(null)
+  const [isOpenModalSelectUser, setIsOpenModalSelectUser] = useState(false)
+
+  const [name, setName] = useState('')
 
   const router = useRouter()
-  let { editModeOpenSpacer } = router?.query;
-  editModeOpenSpacer = editModeOpenSpacer === 'true' 
+  let { editModeOpenSpacer } = router?.query
+  editModeOpenSpacer = editModeOpenSpacer === 'true'
   const onCloseModalSelectUser = () => {
-    setIsOpenModalSelectUser(false);
-  };
+    setIsOpenModalSelectUser(false)
+  }
 
   const handleOpenUnassignedModalUser = (numPlace) => {
     setPlaceSelectUsers(numPlace)
@@ -49,7 +49,10 @@ const MapPlace = ({
           />
           Assigned
         </span> */}
-        <span className={styles.contentSpan}>
+        <span
+          className={styles.contentSpan}
+          onDoubleClick={() => setName((old) => (old ? '' : 'Meir'))}
+        >
           <Avatar
             {...stringAvatar(
               (places?.length - assignedPlace?.length)?.toString()
@@ -78,13 +81,13 @@ const MapPlace = ({
         {places?.map(({ numberPlace, section, subSection }, index) => {
           const employeeAssigned = assignedPlace.find(
             (el) => el.place === numberPlace
-          );
+          )
           const colorPlace = getColorPlace({
-            name: employeeAssigned?.name,
+            name: name || employeeAssigned?.name,
             numberPlace,
             section,
             subSection,
-          });
+          })
           return (
             <div
               className={
@@ -103,25 +106,24 @@ const MapPlace = ({
                     sx={{
                       cursor:
                         handleRemovePlaceEmployee && employeeAssigned
-                          ? "pointer"
-                          : "",
+                          ? 'pointer'
+                          : '',
                     }}
                     onClick={() => {
                       if (editModeOpenSpacer) {
                         employeeAssigned && handleRemovePlaceEmployee
                           ? handleRemovePlaceEmployee(employeeAssigned)
                           : handleOpenUnassignedModalUser(numberPlace)
-                      } else { 
+                      } else {
                         return null
                       }
-                      }
-                    }
+                    }}
                   >
                     <Avatar {...colorPlace} />
                   </ListItemAvatar>
                   {employeeAssigned?.name && (
                     <ListItemText
-                      primary={employeeAssigned?.name || ``}
+                      primary={name || employeeAssigned?.name || ``}
                       secondary={
                         section && (
                           <div>
@@ -134,7 +136,7 @@ const MapPlace = ({
                 </ListItem>
               </PlaceEdit>
             </div>
-          );
+          )
         })}
       </div>
       <ModalSelectUser
@@ -144,7 +146,7 @@ const MapPlace = ({
         onClose={onCloseModalSelectUser}
       />
     </div>
-  );
-};
+  )
+}
 
-export default MapPlace;
+export default MapPlace

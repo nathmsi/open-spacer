@@ -9,10 +9,17 @@ import { getColorPlaceMap } from '../../../utils/colors'
 import { Avatar, ListItemAvatar } from '@mui/material'
 import Backdrop from '../../commons/backdrop'
 
-const ModalSelectPlace = ({ place, open, handleClose, indexDay }) => {
+const ModalSelectPlace = ({
+  place,
+  open,
+  handleClose,
+  indexDay,
+  indexPlace,
+}) => {
   const { handleSelectPlace, users, loading } = useUserAssigned({
     place,
     indexDay,
+    index_place: indexPlace,
   })
 
   const handleClick = async (event, id) => {

@@ -7,3 +7,15 @@ export const getMappingPlacesAssigned = (data) => {
     {}
   )
 }
+
+export const getMappingPlacesAssignedByCoordinate = (data) => {
+  let map = []
+  data.forEach(({ y_coordinate, x_coordinate, ...el }) => {
+    if (y_coordinate !== null && x_coordinate !== null) {
+      if (!map[y_coordinate]) map[y_coordinate] = []
+      map[y_coordinate][x_coordinate] = { ...el, y_coordinate, x_coordinate }
+    }
+  })
+  console.log({ map })
+  return map
+}

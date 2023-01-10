@@ -11,16 +11,15 @@ export const MainContainer = styled.div(
 )
 
 export const Container = styled.div(
-  () => `
-    display: grid;
-    grid-template-columns: repeat(10,auto);
+  ({ lengthPerRow }) => `
+  display: grid;
+  grid-template-columns: repeat(${lengthPerRow},1fr);
     min-height: 80vh;
-    width: 100%;
+    // width: 100%;
     align-content: flex-start;
     padding: 1rem;
     justify-content: center;
     padding-top: 8rem;
     background-color:#ebebeb;
-
     `
 )

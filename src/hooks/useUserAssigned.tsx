@@ -2,8 +2,8 @@ import { gql, useSubscription } from '@apollo/client'
 import { client } from '../utils/graphql'
 import { useState } from 'react'
 
-const useUserAssigned = ({ place, indexDay }) => {
-  const { index_place, maison } = place || {}
+const useUserAssigned = ({ place, indexDay, index_place }) => {
+  const { maison } = place || {}
   const [loading, setLoading] = useState(false)
   const { data: userData, loading: loadingUser } = useSubscription(
     gql`
@@ -36,15 +36,18 @@ const useUserAssigned = ({ place, indexDay }) => {
     }
   )
   const handleSelectPlace = (userId) => {
+    console.log({ userId })
     setLoading(true)
     const data = client.query({
       query: gql`
-        mutation MyMutation($dataToSend: [places_assigned_insert_input!]!) {
+        mutation handleSelectPlace(
+          $dataToSend: [places_assigned_insert_input!]!
+        ) {
           insert_places_assigned(
             objects: $dataToSend
             on_conflict: {
               update_columns: userId
-              constraint: places_assigned_index_place_indexDay_key
+              constraint: places_assigned_indexDay_x_coordinate_y_coordinate_key
             }
           ) {
             returning {
@@ -57,8 +60,9 @@ const useUserAssigned = ({ place, indexDay }) => {
         dataToSend: [
           {
             indexDay,
-            index_place,
             userId: userId,
+            x_coordinate: place?.x_coordinate,
+            y_coordinate: place?.y_coordinate,
           },
         ],
       },

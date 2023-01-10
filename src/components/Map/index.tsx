@@ -1,10 +1,9 @@
 import useMap from '../../hooks/useMap'
+import { mapSpace } from '../EditMap/EditMap'
 import Backdrop from '../commons/backdrop'
 import Card from './Card/Card'
 import Header from './Header/Header'
 import { Container, MainContainer } from './index.styled'
-
-const mapSpace = Array.from({ length: 200 }, (v, i) => i)
 
 const Map = () => {
   const {
@@ -17,7 +16,7 @@ const Map = () => {
     handleChangMaison,
     handleRemoveUserAssigned,
     handleCheckMeetingRoom,
-  } = useMap()
+  } = useMap({ allMaison: false })
 
   return (
     <MainContainer>
@@ -28,16 +27,20 @@ const Map = () => {
         usersNotAssigned={usersNotAssigned}
         handleCheckMeetingRoom={handleCheckMeetingRoom}
       />
-      <Container>
-        {mapSpace.map((card) => (
-          <Card
-            key={card}
-            index={card + 1}
-            place={placesAssigned[card + 1]}
-            indexDay={activeDay?.indexDay}
-            handleRemoveUserAssigned={handleRemoveUserAssigned}
-          />
-        ))}
+      <Container lengthPerRow={20}>
+        {mapSpace?.map((row, index_y) => {
+          return row.map((column, index_x) => {
+            return (
+              <Card
+                key={index_x}
+                index={{ index_x, index_y }}
+                place={placesAssigned?.[index_y]?.[index_x]}
+                indexDay={activeDay?.indexDay}
+                handleRemoveUserAssigned={handleRemoveUserAssigned}
+              />
+            )
+          })
+        })}
       </Container>
       <Backdrop open={loading} />
     </MainContainer>

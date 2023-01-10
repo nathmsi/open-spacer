@@ -18,7 +18,7 @@ const isEvenRow = (index) => {
 
 const Card = ({ index, place, indexDay, handleRemoveUserAssigned }) => {
   const [openModalUser, setModalUser] = useState(false)
-
+  const { index_x, index_y } = index || {}
   if (!place) {
     return <ContainerBlank>{''}</ContainerBlank>
   }
@@ -28,19 +28,19 @@ const Card = ({ index, place, indexDay, handleRemoveUserAssigned }) => {
   }
   if (!user?.fullName) {
     return (
-      <Container haveMaison={maison?.name} isEvenRow={isEvenRow(index - 1)}>
+      <Container haveMaison={maison?.name} isEvenRow={isEvenRow(index_x - 1)}>
         <ListItem alignItems="flex-start" sx={{ padding: '0.4rem' }}>
           <ListItemAvatar>
             <Avatar
               {...getColorPlaceMap({
-                name: index,
-                numberPlace: index,
+                name: index_x,
+                numberPlace: index_x,
                 role: user?.role?.name,
               })}
             />
           </ListItemAvatar>
           <ListItemText
-            primary={index}
+            primary={`(${index_y},${index_x})`}
             secondary={
               <div style={{ display: 'inline', fontSize: '0.7rem' }}>
                 <div>{maison?.name}</div>
@@ -52,6 +52,7 @@ const Card = ({ index, place, indexDay, handleRemoveUserAssigned }) => {
           <ModalSelectPlace
             open={openModalUser}
             place={place}
+            indexPlace={index}
             handleClose={(event) => {
               event.stopPropagation()
               setModalUser(false)
@@ -69,14 +70,14 @@ const Card = ({ index, place, indexDay, handleRemoveUserAssigned }) => {
     <Container
       assigned={user?.fullName}
       haveMaison={maison?.name}
-      isEvenRow={isEvenRow(index - 1)}
+      isEvenRow={isEvenRow(index_x - 1)}
     >
       <ListItem alignItems="flex-start" sx={{ padding: '0.4rem' }}>
         <ListItemAvatar>
           <Avatar
             {...getColorPlaceMap({
               name: user?.fullName,
-              numberPlace: index,
+              numberPlace: index_x,
               role: user?.role?.name,
             })}
           />
@@ -94,7 +95,7 @@ const Card = ({ index, place, indexDay, handleRemoveUserAssigned }) => {
       </ListItem>
       <div
         className="icon-action"
-        onClick={() => handleRemoveUserAssigned({ indexPlace: index - 1 })}
+        onClick={() => handleRemoveUserAssigned({ index_x, index_y })}
       >
         <DeleteOutlinedIcon />
       </div>
