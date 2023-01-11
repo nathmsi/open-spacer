@@ -13,7 +13,7 @@ export const MainContainer = styled.div(
 export const Container = styled.div(
   ({ lengthPerRow }) => `
   display: grid;
-  grid-template-columns: repeat(${lengthPerRow},1fr);
+  grid-template-columns: repeat(${lengthPerRow},auto);
     min-height: 80vh;
     // width: 100%;
     align-content: flex-start;

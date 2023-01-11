@@ -40,7 +40,7 @@ const Card = ({ index, place, indexDay, handleRemoveUserAssigned }) => {
             />
           </ListItemAvatar>
           <ListItemText
-            primary={`(${index_y},${index_x})`}
+            // primary={`(${index_y},${index_x})`}
             secondary={
               <div style={{ display: 'inline', fontSize: '0.7rem' }}>
                 <div>{maison?.name}</div>

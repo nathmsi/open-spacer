@@ -6,6 +6,7 @@ import ListItemText from '@mui/material/ListItemText'
 import Select from '@mui/material/Select'
 import Checkbox from '@mui/material/Checkbox'
 import { InputLabel } from '@mui/material'
+import { useRouter } from 'next/router'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -51,7 +52,18 @@ export const MaisonsList = [
 ]
 
 const MaisonSelector = ({ handleChangMaison }) => {
-  const [maisons, setMaisons] = React.useState([MaisonsList[1]?.name])
+  const [maisons, setMaisons] = React.useState([])
+
+  const router = useRouter()
+  const query = router.query
+
+  React.useEffect(() => {
+    const maisonSlected = MaisonsList.find((el) => el.name === query?.maison)
+    if (maisonSlected) {
+      setMaisons([maisonSlected.name])
+      handleChangMaison([maisonSlected])
+    }
+  }, [query?.maison])
 
   const handleChange = (event) => {
     const {
