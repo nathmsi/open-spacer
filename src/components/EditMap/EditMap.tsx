@@ -10,7 +10,7 @@ export const mapSpace = Array.from({ length: 50 }, () => []).map((el) =>
 )
 
 const EditMap = () => {
-  const { placesAssigned, removeMaisonInThisPlace } = useMapEdit()
+  const { placesAssigned, maisonsList, removeMaisonInThisPlace } = useMapEdit()
   const [isOpen, setIsOpen] = useState(false)
   const [indexPlaceSelected, setIndexPlaceSelected] = useState(null)
 
@@ -70,6 +70,7 @@ const EditMap = () => {
         indexPlace={indexPlaceSelected}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
+        maisonsList={maisonsList}
       />
     </>
   )

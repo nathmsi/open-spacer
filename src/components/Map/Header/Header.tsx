@@ -25,6 +25,7 @@ const Header = ({
   handleSelectDay,
   handleChangMaison,
   handleCheckMeetingRoom,
+  picklistMaison,
 }) => {
   const { width } = useWindowSize()
   const [anchorElNav, setAnchorElNav] = useState(null)
@@ -115,7 +116,10 @@ const Header = ({
             ))}
       </ButtonGroup>
       <ContainerMaisonSelector>
-        <MaisonSelector handleChangMaison={handleChangMaison} />
+        <MaisonSelector
+          handleChangMaison={handleChangMaison}
+          picklistMaison={picklistMaison}
+        />
       </ContainerMaisonSelector>
     </Container>
   )

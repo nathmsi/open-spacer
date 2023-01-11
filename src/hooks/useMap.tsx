@@ -2,7 +2,6 @@ import { gql, useSubscription } from '@apollo/client'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { getMappingPlacesAssignedByCoordinate } from '../utils/mapping/placesAssigned.mapping'
-import { MaisonsList } from '../components/Map/Header/MaisonSelector/MaisonSelector'
 import { client } from '../utils/graphql'
 export const day = [
   { name: 'Sunday', indexDay: 1 },
@@ -57,8 +56,20 @@ const useMap = ({ allMaison = false }) => {
     day[allMaison ? 0 : getDayNumber() - 1] || day[0]
   )
   const [showMeetingRoom, setShowMeetingRoom] = useState(false)
-  const [activeSelectedMaisons, setActiveSelectedMaison] = useState(
-    MaisonsList[1].id
+  const [picklistMaison, setPickListMaison] = useState([])
+  const [activeSelectedMaisons, setActiveSelectedMaison] = useState([])
+
+  const { data: maisonList } = useSubscription(
+    gql`
+      subscription MyQuery {
+        maison {
+          id
+          name
+          updated_at
+          created_at
+        }
+      }
+    `
   )
   const {
     data,
@@ -124,7 +135,7 @@ const useMap = ({ allMaison = false }) => {
       variables: {
         indexDay: activeDay?.indexDay || 1,
         maisonsId: allMaison
-          ? MaisonsList?.map((el) => el.id)
+          ? picklistMaison?.map((el) => el.id)
           : activeSelectedMaisons,
         showMeetingRoom: allMaison ? false : !showMeetingRoom,
       },
@@ -167,7 +178,14 @@ const useMap = ({ allMaison = false }) => {
       },
     }
   )
+
   const [placesAssigned, setPlaceAssigned] = useState([])
+
+  useEffect(() => {
+    if (maisonList?.maison) {
+      setPickListMaison(maisonList?.maison)
+    }
+  }, [maisonList])
 
   useEffect(() => {
     if (data?.places_assigned) {
@@ -228,6 +246,7 @@ const useMap = ({ allMaison = false }) => {
     usersNotAssigned: usersNotAssigned?.users,
     activeDay,
     loading: loading || loadingApi,
+    picklistMaison,
 
     handleSelectDay,
     handleChangMaison,

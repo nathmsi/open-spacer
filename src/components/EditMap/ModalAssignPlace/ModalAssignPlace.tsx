@@ -12,11 +12,10 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import InputLabel from '@mui/material/InputLabel'
 import { Content } from '../../Map/Header/AddNewUser/AddNewUser.style'
-import { MaisonsList } from '../../Map/Header/MaisonSelector/MaisonSelector'
 import { client } from '../../../utils/graphql'
 import { gql } from '@apollo/client'
 
-const ModalAssignPlace = ({ isOpen, indexPlace, onClose }) => {
+const ModalAssignPlace = ({ isOpen, indexPlace, onClose, maisonsList }) => {
   const [maison, setMaison] = useState('')
   const { index_y, index_x } = indexPlace || {}
 
@@ -77,7 +76,7 @@ const ModalAssignPlace = ({ isOpen, indexPlace, onClose }) => {
                   setMaison(e.target.value)
                 }}
               >
-                {MaisonsList?.map((maison, index) => (
+                {maisonsList?.map((maison, index) => (
                   <MenuItem key={index} value={maison.id}>
                     {maison.name}
                   </MenuItem>

@@ -11,6 +11,7 @@ const Map = () => {
     usersNotAssigned,
     activeDay,
     loading,
+    picklistMaison,
 
     handleSelectDay,
     handleChangMaison,
@@ -26,6 +27,7 @@ const Map = () => {
         handleChangMaison={handleChangMaison}
         usersNotAssigned={usersNotAssigned}
         handleCheckMeetingRoom={handleCheckMeetingRoom}
+        picklistMaison={picklistMaison}
       />
       <Container lengthPerRow={20}>
         {mapSpace?.map((row, index_y) => {

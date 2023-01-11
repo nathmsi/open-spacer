@@ -7,6 +7,19 @@ import { client } from '../utils/graphql'
 const useMapEdit = () => {
   const [activeDay, setActiveDay] = useState(day[getDayNumber() - 1] || day[0])
 
+  const { data: maisonList } = useSubscription(
+    gql`
+      subscription MyQuery {
+        maison {
+          id
+          name
+          updated_at
+          created_at
+        }
+      }
+    `
+  )
+
   const {
     data,
     loading,
@@ -97,6 +110,7 @@ const useMapEdit = () => {
   return {
     placesAssigned,
     loading,
+    maisonsList: maisonList?.maison,
 
     removeMaisonInThisPlace,
   }
