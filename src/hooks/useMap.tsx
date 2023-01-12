@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { getMappingPlacesAssignedByCoordinate } from '../utils/mapping/placesAssigned.mapping'
 import { client } from '../utils/graphql'
+
 export const day = [
   { name: 'Sunday', indexDay: 1 },
   { name: 'Monday', indexDay: 2 },

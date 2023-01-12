@@ -26,7 +26,9 @@ const MaisonSelector = ({ handleChangMaison, picklistMaison }) => {
   const query = router.query
 
   React.useEffect(() => {
-    const maisonSlected = picklistMaison.find((el) => el.name === query?.maison)
+    const maisonSlected = picklistMaison?.find(
+      (el) => el.name === query?.maison
+    )
     if (maisonSlected) {
       setMaisons([maisonSlected.name])
       handleChangMaison([maisonSlected])

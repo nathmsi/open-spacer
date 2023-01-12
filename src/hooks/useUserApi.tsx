@@ -1,11 +1,27 @@
 import { gql, useSubscription } from '@apollo/client'
 import { useEffect, useState } from 'react'
+import { client } from '../utils/graphql'
 
 const useUserApi = () => {
+  const { data: maisonList } = useSubscription(
+    gql`
+      subscription MyQuery {
+        maison {
+          id
+          name
+          updated_at
+          created_at
+        }
+      }
+    `
+  )
+
+  const [maisonSelected, setMaisonSelected] = useState([])
+
   const { data } = useSubscription(
     gql`
-      subscription MySubscription {
-        users {
+      subscription MySubscription($maisonIds: [uuid!]!) {
+        users(where: { maison_id: { _in: $maisonIds } }) {
           email
           fullName
           id
@@ -23,7 +39,12 @@ const useUserApi = () => {
           }
         }
       }
-    `
+    `,
+    {
+      variables: {
+        maisonIds: maisonSelected,
+      },
+    }
   )
   const [users, setUsers] = useState([])
 
@@ -41,8 +62,35 @@ const useUserApi = () => {
     }
   }, [data])
 
+  const handleChangMaison = (val) => {
+    console.log(val)
+    setMaisonSelected(val.map((el) => el.id))
+  }
+
+  const deleteUser = ({ id }) => {
+    console.log(id)
+    const res = client.query({
+      query: gql`
+        mutation MyMutation($id: uuid) {
+          delete_users(where: { id: { _eq: $id } }) {
+            returning {
+              id
+            }
+          }
+        }
+      `,
+      variables: {
+        id,
+      },
+    })
+  }
+
   return {
     users,
+    maisonsList: maisonList?.maison,
+
+    handleChangMaison,
+    deleteUser,
   }
 }
 

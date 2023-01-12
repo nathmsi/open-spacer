@@ -1,5 +1,5 @@
 import Button from '@mui/material/Button'
-import EditIcon from '@mui/icons-material/Edit'
+import AddIcon from '@mui/icons-material/Add'
 import {
   Dialog,
   DialogActions,
@@ -12,13 +12,12 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import InputLabel from '@mui/material/InputLabel'
-import { MaisonsList } from '../MaisonSelector/MaisonSelector'
 import { Content } from './AddNewUser.style'
 import { listRole } from '../../../../hooks/useMap'
 import useUserUpdate from '../../../../hooks/useUserUpdate'
 import Backdrop from '../../../commons/backdrop'
 
-const AddNewUser = () => {
+const AddNewUser = ({ MaisonList }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [fullName, setFullName] = useState('')
   const [maison, setMaison] = useState('')
@@ -50,7 +49,7 @@ const AddNewUser = () => {
       <Button
         variant="outlined"
         onClick={handleClickOpen}
-        startIcon={<EditIcon />}
+        startIcon={<AddIcon />}
       >
         Add User
       </Button>
@@ -89,7 +88,7 @@ const AddNewUser = () => {
                     setMaison(e.target.value)
                   }}
                 >
-                  {MaisonsList?.map((maison, index) => (
+                  {MaisonList?.map((maison, index) => (
                     <MenuItem key={index} value={maison.id}>
                       {maison.name}
                     </MenuItem>
