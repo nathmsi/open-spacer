@@ -24,7 +24,7 @@ const MapPlace = ({
   const [placeSelectUsers, setPlaceSelectUsers] = useState(null)
   const [isOpenModalSelectUser, setIsOpenModalSelectUser] = useState(false)
 
-  const [name, setName] = useState('')
+  const [urlImage, setUrlImage] = useState('')
 
   const router = useRouter()
   let { editModeOpenSpacer } = router?.query
@@ -51,7 +51,13 @@ const MapPlace = ({
         </span> */}
         <span
           className={styles.contentSpan}
-          onDoubleClick={() => setName((old) => (old ? '' : 'Meir'))}
+          onDoubleClick={() =>
+            setUrlImage((old) =>
+              old
+                ? ''
+                : 'https://media.licdn.com/dms/image/C5603AQHnIHV0IqQ1yQ/profile-displayphoto-shrink_400_400/0/1517452716461?e=1678924800&v=beta&t=dtjhWfOA04rHj2E-j4h5E8CojUNnrzkxT2UQ9iV-wuE'
+            )
+          }
         >
           <Avatar
             {...stringAvatar(
@@ -119,11 +125,13 @@ const MapPlace = ({
                       }
                     }}
                   >
-                    <Avatar {...colorPlace} />
+                    <Avatar {...colorPlace} src={urlImage} />
                   </ListItemAvatar>
                   {employeeAssigned?.name && (
                     <ListItemText
-                      primary={name || employeeAssigned?.name || ``}
+                      primary={
+                        urlImage ? 'Meir B' : employeeAssigned?.name || ``
+                      }
                       secondary={
                         section && (
                           <div>
