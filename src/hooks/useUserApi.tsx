@@ -15,6 +15,18 @@ const useUserApi = () => {
       }
     `
   )
+  const { data: roleList } = useSubscription(
+    gql`
+      subscription MyQuery {
+        role {
+          id
+          name
+          updated_at
+          created_at
+        }
+      }
+    `
+  )
 
   const [maisonSelected, setMaisonSelected] = useState([])
 
@@ -88,6 +100,7 @@ const useUserApi = () => {
   return {
     users,
     maisonsList: maisonList?.maison,
+    roleList: roleList?.role,
 
     handleChangMaison,
     deleteUser,

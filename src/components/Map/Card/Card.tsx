@@ -16,7 +16,13 @@ const isEvenRow = (index) => {
   return false
 }
 
-const Card = ({ index, place, indexDay, handleRemoveUserAssigned }) => {
+const Card = ({
+  index,
+  place,
+  indexDay,
+  handleRemoveUserAssigned,
+  viewOnly = false,
+}) => {
   const [openModalUser, setModalUser] = useState(false)
   const { index_x, index_y } = index || {}
   if (!place) {
@@ -60,9 +66,11 @@ const Card = ({ index, place, indexDay, handleRemoveUserAssigned }) => {
             indexDay={indexDay}
           />
         )}
-        <div className="icon-action" onClick={() => setModalUser(true)}>
-          <AddOutlinedIcon />
-        </div>
+        {!viewOnly && (
+          <div className="icon-action" onClick={() => setModalUser(true)}>
+            <AddOutlinedIcon />
+          </div>
+        )}
       </Container>
     )
   }
@@ -93,12 +101,14 @@ const Card = ({ index, place, indexDay, handleRemoveUserAssigned }) => {
           }
         />
       </ListItem>
-      <div
-        className="icon-action"
-        onClick={() => handleRemoveUserAssigned({ index_x, index_y })}
-      >
-        <DeleteOutlinedIcon />
-      </div>
+      {!viewOnly && (
+        <div
+          className="icon-action"
+          onClick={() => handleRemoveUserAssigned({ index_x, index_y })}
+        >
+          <DeleteOutlinedIcon />
+        </div>
+      )}
     </Container>
   )
 }

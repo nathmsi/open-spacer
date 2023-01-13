@@ -4,7 +4,8 @@ import TableUser from './TableUser'
 import { Container } from './index.style'
 
 const UserComponent = () => {
-  const { users, maisonsList, handleChangMaison, deleteUser } = useUserApi()
+  const { users, maisonsList, handleChangMaison, deleteUser, roleList } =
+    useUserApi()
 
   return (
     <Container>
@@ -12,7 +13,12 @@ const UserComponent = () => {
         handleChangMaison={handleChangMaison}
         picklistMaison={maisonsList}
       />
-      <TableUser users={users} deleteUser={deleteUser} />
+      <TableUser
+        users={users}
+        deleteUser={deleteUser}
+        maisonsList={maisonsList}
+        roleList={roleList}
+      />
     </Container>
   )
 }

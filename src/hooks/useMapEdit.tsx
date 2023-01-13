@@ -70,7 +70,7 @@ const useMapEdit = () => {
     `,
     {
       variables: {
-        indexDay: 2,
+        indexDay: 4,
       },
     }
   )

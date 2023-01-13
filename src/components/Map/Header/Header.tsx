@@ -79,7 +79,7 @@ const Header = ({
         >
           <ContentAction>
             <UserNotAssigned usersNotAssigned={usersNotAssigned} />
-            <AddNewUser />
+            {handleChangMaison && <AddNewUser />}
             <FormControlLabel
               control={<Checkbox onChange={handleCheckMeetingRoom} />}
               label="Meeting Room"
@@ -115,12 +115,14 @@ const Header = ({
               </DayButton>
             ))}
       </ButtonGroup>
-      <ContainerMaisonSelector>
-        <MaisonSelector
-          handleChangMaison={handleChangMaison}
-          picklistMaison={picklistMaison}
-        />
-      </ContainerMaisonSelector>
+      {handleChangMaison && (
+        <ContainerMaisonSelector>
+          <MaisonSelector
+            handleChangMaison={handleChangMaison}
+            picklistMaison={picklistMaison}
+          />
+        </ContainerMaisonSelector>
+      )}
     </Container>
   )
 }

@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { getMappingPlacesAssignedByCoordinate } from '../utils/mapping/placesAssigned.mapping'
 import { client } from '../utils/graphql'
+import { useRouter } from 'next/router'
 
 export const day = [
   { name: 'Sunday', indexDay: 1 },
@@ -59,6 +60,8 @@ const useMap = ({ allMaison = false }) => {
   const [showMeetingRoom, setShowMeetingRoom] = useState(false)
   const [picklistMaison, setPickListMaison] = useState([])
   const [activeSelectedMaisons, setActiveSelectedMaison] = useState([])
+  const router = useRouter()
+  const { maison: defaultMaison } = router?.query || {}
 
   const { data: maisonList } = useSubscription(
     gql`
@@ -183,6 +186,18 @@ const useMap = ({ allMaison = false }) => {
   const [placesAssigned, setPlaceAssigned] = useState([])
 
   useEffect(() => {
+    if (defaultMaison && picklistMaison?.length > 0) {
+      const idMaison = picklistMaison.find(
+        (el) => el.name?.toUpperCase() === defaultMaison?.toUpperCase()
+      )?.id
+      console.log({ idMaison, defaultMaison })
+      if (idMaison) {
+        setActiveSelectedMaison([idMaison])
+      }
+    }
+  }, [defaultMaison, picklistMaison])
+
+  useEffect(() => {
     if (maisonList?.maison) {
       setPickListMaison(maisonList?.maison)
     }
@@ -191,6 +206,7 @@ const useMap = ({ allMaison = false }) => {
   useEffect(() => {
     if (data?.places_assigned) {
       const places = data?.places_assigned
+      console.log(places)
       setPlaceAssigned(getMappingPlacesAssignedByCoordinate(places))
     }
   }, [data])
