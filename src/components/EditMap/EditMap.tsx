@@ -58,7 +58,7 @@ const EditMap = () => {
                     className="place"
                     onClick={() => handleSelectPlace({ index_y, index_x })}
                   >
-                    ({index_y + ',' + index_x})
+                    {index_y + '|' + index_x}
                   </div>
                 )
               })}

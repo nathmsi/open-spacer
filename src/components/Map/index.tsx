@@ -12,12 +12,15 @@ const Map = () => {
     activeDay,
     loading,
     picklistMaison,
+    places,
 
     handleSelectDay,
     handleChangMaison,
     handleRemoveUserAssigned,
     handleCheckMeetingRoom,
   } = useMap({ allMaison: false })
+
+  console.log({ placesAssigned, places })
 
   return (
     <MainContainer>
@@ -36,7 +39,7 @@ const Map = () => {
               <Card
                 key={index_x}
                 index={{ index_x, index_y }}
-                place={placesAssigned?.[index_y]?.[index_x]}
+                place={places?.[index_y]?.[index_x]}
                 indexDay={activeDay?.indexDay}
                 handleRemoveUserAssigned={handleRemoveUserAssigned}
               />

@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react'
-import { day, getDayNumber } from './useMap'
 import { gql, useSubscription } from '@apollo/client'
-import { getMappingPlacesAssignedByCoordinate } from '../utils/mapping/placesAssigned.mapping'
+import { getMappingPlacesByCoordinate } from '../utils/mapping/placesAssigned.mapping'
 import { client } from '../utils/graphql'
 
 const useMapEdit = () => {
-  const [activeDay, setActiveDay] = useState(day[getDayNumber() - 1] || day[0])
-
   const { data: maisonList } = useSubscription(
     gql`
       subscription MyQuery {
@@ -26,61 +23,29 @@ const useMapEdit = () => {
     error: errorMessage,
   } = useSubscription(
     gql`
-      subscription places_assigned($indexDay: numeric!) {
-        places_assigned(
-          where: {
-            indexDay: { _eq: $indexDay }
-            index_place: { _is_null: true }
-          }
-        ) {
-          id
-          updated_at
-          userId
-          created_at
-          indexDay
-          index_place
-          x_coordinate
+      subscription places {
+        place {
           y_coordinate
-          meeting_room {
-            id
-            name
-          }
+          x_coordinate
+          updated_at
+          maisonId
+          id
+          created_at
           maison {
             name
             id
           }
-          user {
-            id
-            maison_id
-            email
-            updated_at
-            created_at
-            fullName
-            maison {
-              name
-              updated_at
-              id
-            }
-            role {
-              name
-            }
-          }
         }
       }
-    `,
-    {
-      variables: {
-        indexDay: 4,
-      },
-    }
+    `
   )
   const [placesAssigned, setPlaceAssigned] = useState([])
 
   useEffect(() => {
-    if (data?.places_assigned) {
-      const places = data?.places_assigned
+    if (data?.place?.length > 0) {
+      const places = data?.place
       console.log({ places })
-      setPlaceAssigned(getMappingPlacesAssignedByCoordinate(places))
+      setPlaceAssigned(getMappingPlacesByCoordinate(places))
     }
   }, [data])
 
@@ -88,7 +53,7 @@ const useMapEdit = () => {
     const data = client.query({
       query: gql`
         mutation MyMutation($x_coordinate: numeric!, $y_coordinate: numeric!) {
-          delete_places_assigned(
+          delete_place(
             where: {
               x_coordinate: { _eq: $x_coordinate }
               y_coordinate: { _eq: $y_coordinate }

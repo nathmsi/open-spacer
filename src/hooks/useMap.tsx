@@ -1,7 +1,10 @@
 import { gql, useSubscription } from '@apollo/client'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { getMappingPlacesAssignedByCoordinate } from '../utils/mapping/placesAssigned.mapping'
+import {
+  getMappingPlacesAssignedByCoordinate,
+  getMappingPlacesByCoordinate,
+} from '../utils/mapping/placesAssigned.mapping'
 import { client } from '../utils/graphql'
 import { useRouter } from 'next/router'
 
@@ -76,7 +79,7 @@ const useMap = ({ allMaison = false }) => {
     `
   )
   const {
-    data,
+    data: dataPlaceAssign,
     loading,
     error: errorMessage,
   } = useSubscription(
@@ -183,7 +186,27 @@ const useMap = ({ allMaison = false }) => {
     }
   )
 
+  const { data: dataPlace, loading: loadingPlace } = useSubscription(
+    gql`
+      subscription places {
+        place {
+          y_coordinate
+          x_coordinate
+          updated_at
+          maisonId
+          id
+          created_at
+          maison {
+            name
+            id
+          }
+        }
+      }
+    `
+  )
+
   const [placesAssigned, setPlaceAssigned] = useState([])
+  const [places, setPlaces] = useState([])
 
   useEffect(() => {
     if (defaultMaison && picklistMaison?.length > 0) {
@@ -204,15 +227,22 @@ const useMap = ({ allMaison = false }) => {
   }, [maisonList])
 
   useEffect(() => {
-    if (data?.places_assigned) {
-      const places = data?.places_assigned
-      console.log(places)
+    if (dataPlaceAssign?.places_assigned) {
+      const places = dataPlaceAssign?.places_assigned
       setPlaceAssigned(getMappingPlacesAssignedByCoordinate(places))
     }
-  }, [data])
+  }, [dataPlaceAssign])
 
-  const handleSelectDay = (day) => {
-    setActiveDay(day)
+  useEffect(() => {
+    if (dataPlace?.place) {
+      const places = dataPlace?.place
+      setPlaces(getMappingPlacesByCoordinate(places))
+    }
+  }, [dataPlace])
+
+  const handleSelectDay = (date) => {
+    console.log(date.format())
+    setActiveDay(date)
   }
 
   const handleChangMaison = (value) => {
@@ -264,6 +294,7 @@ const useMap = ({ allMaison = false }) => {
     activeDay,
     loading: loading || loadingApi,
     picklistMaison,
+    places,
 
     handleSelectDay,
     handleChangMaison,

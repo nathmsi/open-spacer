@@ -19,6 +19,7 @@ export const Container = styled.div(
         cursor: pointer;
         position: relative;
         flex-grow: 1;
+        font-size: 0.7rem;
       }
       .placeAssign {
         background-color: yellow;

@@ -3,7 +3,6 @@ import {
   Container,
   ContainerMaisonSelector,
   ContentAction,
-  DayButton,
 } from './Header.style'
 import MaisonSelector from './MaisonSelector/MaisonSelector'
 import UserNotAssigned from './UserNotAssigned/UserNotAssigned'
@@ -16,8 +15,11 @@ import Menu from '@mui/material/Menu'
 import Tooltip from '@mui/material/Tooltip'
 import { useState } from 'react'
 import MoreIcon from '@mui/icons-material/MoreVert'
-import { Button, ButtonGroup } from '@mui/material'
-import { day } from '../../../hooks/useMap'
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker'
+import moment from 'moment'
+import { TextField } from '@mui/material'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 
 const Header = ({
   active,
@@ -27,9 +29,16 @@ const Header = ({
   handleCheckMeetingRoom,
   picklistMaison,
 }) => {
+  const [value, setValue] = useState(moment.now())
+
   const { width } = useWindowSize()
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
+
+  const handleChange = (newValue) => {
+    setValue(newValue)
+    handleSelectDay(newValue)
+  }
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
@@ -87,7 +96,7 @@ const Header = ({
           </ContentAction>
         </Menu>
       </Actions>
-      <ButtonGroup sx={{ margin: '1rem 0', gap: '0.8rem' }}>
+      {/* <ButtonGroup sx={{ margin: '1rem 0', gap: '0.8rem' }}>
         {width > 1500
           ? day.map((item, index) => (
               <Button
@@ -114,7 +123,15 @@ const Header = ({
                 {index + 1}
               </DayButton>
             ))}
-      </ButtonGroup>
+      </ButtonGroup> */}
+      <LocalizationProvider dateAdapter={AdapterMoment}>
+        <DesktopDatePicker
+          inputFormat="MM/DD/YYYY"
+          value={value}
+          onChange={handleChange}
+          renderInput={(params) => <TextField {...params} />}
+        />
+      </LocalizationProvider>
       {handleChangMaison && (
         <ContainerMaisonSelector>
           <MaisonSelector

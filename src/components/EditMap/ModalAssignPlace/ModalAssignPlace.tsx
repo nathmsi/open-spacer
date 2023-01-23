@@ -31,29 +31,29 @@ const ModalAssignPlace = ({ isOpen, indexPlace, onClose, maisonsList }) => {
       const maisonId = maison
       const data = client.query({
         query: gql`
-          mutation MyMutation($dataToSend: [places_assigned_insert_input!]!) {
-            insert_places_assigned(
+          mutation MyMutation($dataToSend: [place_insert_input!]!) {
+            insert_place(
               objects: $dataToSend
               on_conflict: {
                 update_columns: [maisonId]
-                constraint: places_assigned_indexDay_x_coordinate_y_coordinate_key
+                constraint: place_x_coordinate_y_coordinate_id_key
               }
             ) {
               returning {
                 id
-                indexDay
                 maisonId
               }
             }
           }
         `,
         variables: {
-          dataToSend: [1, 2, 3, 4, 5].map((index) => ({
-            x_coordinate: index_x,
-            y_coordinate: index_y,
-            indexDay: index,
-            maisonId,
-          })),
+          dataToSend: [
+            {
+              x_coordinate: index_x,
+              y_coordinate: index_y,
+              maisonId,
+            },
+          ],
         },
       })
       setLoading(false)
