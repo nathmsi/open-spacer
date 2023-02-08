@@ -7,16 +7,16 @@ const useUserAssigned = ({ place, indexDay, index_place }) => {
   const [loading, setLoading] = useState(false)
   const { data: userData, loading: loadingUser } = useSubscription(
     gql`
-      subscription MyQuery($maisonId: uuid!, $indexDay: numeric!) {
+      subscription MyQuery{
         users(
           where: {
-            maison_id: { _eq: $maisonId }
-            places_assigneds_aggregate: {
-              count: {
-                predicate: { _eq: 0 }
-                filter: { indexDay: { _eq: $indexDay } }
-              }
-            }
+            # maison_id: { _eq: $maisonId }
+            # places_assigneds_aggregate: {
+            #   count: {
+            #     predicate: { _eq: 0 }
+            #     filter: { indexDay: { _eq: $indexDay } }
+            #   }
+            # }
           }
         ) {
           fullName
@@ -30,8 +30,8 @@ const useUserAssigned = ({ place, indexDay, index_place }) => {
     `,
     {
       variables: {
-        maisonId: maison?.id,
-        indexDay,
+        // maisonId: maison?.id,
+        // indexDay,
       },
     }
   )

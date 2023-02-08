@@ -57,9 +57,7 @@ export function getDayNumber() {
 
 const useMap = ({ allMaison = false }) => {
   const [loadingApi, setLoading] = useState(false)
-  const [activeDay, setActiveDay] = useState(
-    day[allMaison ? 0 : getDayNumber() - 1] || day[0]
-  )
+  const [activeDay, setActiveDay] = useState(new Date())
   const [showMeetingRoom, setShowMeetingRoom] = useState(false)
   const [picklistMaison, setPickListMaison] = useState([])
   const [activeSelectedMaisons, setActiveSelectedMaison] = useState([])
@@ -78,47 +76,18 @@ const useMap = ({ allMaison = false }) => {
       }
     `
   )
+
   const {
     data: dataPlaceAssign,
     loading,
     error: errorMessage,
   } = useSubscription(
     gql`
-      subscription places_assigned(
-        $indexDay: numeric!
-        $maisonsId: [uuid!]!
-        $showMeetingRoom: Boolean!
-      ) {
-        places_assigned(
-          where: {
-            indexDay: { _eq: $indexDay }
-            _or: [
-              { maisonId: { _in: $maisonsId } }
-              {
-                _and: [
-                  { meetingRoomId: { _is_null: $showMeetingRoom } }
-                  { maisonId: { _is_null: true } }
-                ]
-              }
-            ]
-          }
-        ) {
+      subscription places_assigned($activeDay: date!) {
+        places_assigned(where: { date: { _eq: $activeDay } }) {
           id
           updated_at
-          userId
           created_at
-          indexDay
-          index_place
-          x_coordinate
-          y_coordinate
-          meeting_room {
-            id
-            name
-          }
-          maison {
-            name
-            id
-          }
           user {
             id
             maison_id
@@ -140,16 +109,12 @@ const useMap = ({ allMaison = false }) => {
     `,
     {
       variables: {
-        indexDay: activeDay?.indexDay || 1,
-        maisonsId: allMaison
-          ? picklistMaison?.map((el) => el.id)
-          : activeSelectedMaisons,
-        showMeetingRoom: allMaison ? false : !showMeetingRoom,
+        activeDay: activeDay,
       },
     }
   )
 
-  // console.log(errorMessage, data)
+  console.log(errorMessage, dataPlaceAssign)
 
   const {
     data: usersNotAssigned,
@@ -242,7 +207,7 @@ const useMap = ({ allMaison = false }) => {
 
   const handleSelectDay = (date) => {
     console.log(date.format())
-    setActiveDay(date)
+    setActiveDay(date?.format())
   }
 
   const handleChangMaison = (value) => {
