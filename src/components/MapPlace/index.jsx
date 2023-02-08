@@ -20,6 +20,7 @@ const MapPlace = ({
   assignedPlace,
   handleRemovePlaceEmployee,
   daySelected,
+  modePlaceEdit,
 }) => {
   const [placeSelectUsers, setPlaceSelectUsers] = useState(null)
   const [isOpenModalSelectUser, setIsOpenModalSelectUser] = useState(false)
@@ -42,11 +43,7 @@ const MapPlace = ({
     <div className={styles.MainContainer}>
       <div className={styles.availablePlace}>
         {/* <span className="content-span">
-          <Avatar
-            {...stringAvatar(
-              (assignedPlace?.length)?.toString()
-            )}
-          />
+          <Avatar {...stringAvatar(assignedPlace?.length?.toString())} />
           Assigned
         </span> */}
         <span
@@ -105,7 +102,7 @@ const MapPlace = ({
             >
               <PlaceEdit
                 place={{ numberPlace, section, subSection }}
-                editMode={false}
+                editMode={modePlaceEdit}
               >
                 <ListItem alignItems="flex-start">
                   <ListItemAvatar
@@ -127,7 +124,7 @@ const MapPlace = ({
                   >
                     <Avatar {...colorPlace} src={urlImage} />
                   </ListItemAvatar>
-                  {employeeAssigned?.name && (
+                  {
                     <ListItemText
                       primary={
                         urlImage ? 'Meir B' : employeeAssigned?.name || ``
@@ -140,7 +137,7 @@ const MapPlace = ({
                         )
                       }
                     />
-                  )}
+                  }
                 </ListItem>
               </PlaceEdit>
             </div>

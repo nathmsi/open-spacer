@@ -6,11 +6,13 @@ import { getDayNumber } from '../../../hooks/useMap'
 
 const day = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday']
 
+const today = getDayNumber() - 1 || 1
+
 const DaySelector = ({ handleSelectDay }) => {
-  const [active, setIsactive] = React.useState(getDayNumber() - 1 || 1)
+  const [active, setIsactive] = React.useState(today)
 
   React.useEffect(() => {
-    handleSelectDay(day[0])
+    handleSelectDay(day[today])
   }, [])
 
   const handleClick = (index) => {
